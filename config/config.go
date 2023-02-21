@@ -3,7 +3,6 @@ package config
 import (
 	"time"
 
-	"github.com/joho/godotenv"
 	"github.com/kelseyhightower/envconfig"
 )
 
@@ -13,8 +12,8 @@ type Config struct {
 	GracefulShutdownTimeout    time.Duration `envconfig:"GRACEFUL_SHUTDOWN_TIMEOUT"`
 	HealthCheckInterval        time.Duration `envconfig:"HEALTHCHECK_INTERVAL"`
 	HealthCheckCriticalTimeout time.Duration `envconfig:"HEALTHCHECK_CRITICAL_TIMEOUT"`
-	AreaDataFile               string
-	IndustryDataFile           string
+	AreaDataFile               string        `envconfig:"AREA_DATA_FILE"`
+	IndustryDataFile           string        `envconfig:"INDUSTRY_DATA_FILE"`
 }
 
 var cfg *Config
@@ -23,11 +22,6 @@ var cfg *Config
 // variables
 func Get() (*Config, error) {
 	cfg := &Config{}
-
-	// default arg for .Load() is .env
-	if err := godotenv.Load(); err != nil {
-		return nil, err
-	}
 
 	cfg = &Config{
 		BindAddr:                   ":3002",

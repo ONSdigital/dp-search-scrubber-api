@@ -3,6 +3,8 @@ package api
 import (
 	"context"
 
+	"github.com/ONSdigital/dp-nlp-search-scrubber/config"
+	"github.com/ONSdigital/dp-nlp-search-scrubber/db"
 	"github.com/gorilla/mux"
 )
 
@@ -12,12 +14,12 @@ type API struct {
 }
 
 // Setup function sets up the api and returns an api
-func Setup(ctx context.Context, r *mux.Router) *API {
+func Setup(ctx context.Context, r *mux.Router, cfg *config.Config) *API {
 	api := &API{
 		Router: r,
 	}
 
-	// TODO: remove hello world example handler route
-	r.HandleFunc("/hello", HelloHandler(ctx)).Methods("GET")
+	db := db.LoadCsvData(cfg)
+	r.HandleFunc("/scrubber/search", PrefixSearchHandler(ctx, db)).Methods("GET").Name("PrefixSearchHandler")
 	return api
 }
