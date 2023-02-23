@@ -24,7 +24,7 @@ paths:
         200:
           description: OK
           schema:
-            $ref: "#/definitions/Scrubber"
+            $ref: "#/definitions/ScrubberResp"
         500:
           $ref: '#/responses/InternalError'
 
