@@ -27,7 +27,20 @@ paths:
             $ref: "#/definitions/ScrubberResp"
         500:
           $ref: '#/responses/InternalError'
-
+          examples:
+            application/json:
+              time: "33µs"
+              query: "dentists in E00000014 01140"
+              results:
+                areas:
+                  - name: "City of London"
+                    region: "London"
+                    region_code: "E12000007"
+                    codes:
+                      E00000014: "E00000014"
+                industries:
+                  - code: "01140"
+                    name: "Growing of sugar cane"
   /health:
     get:
       tags:
