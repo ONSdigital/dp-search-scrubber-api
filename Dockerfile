@@ -10,8 +10,8 @@ COPY . .
 # Build the Go binary
 RUN go build -o main .
 
-# Expose port 5000
-EXPOSE 5000
+# Expose port 3002
+EXPOSE 3002
 
 # Run the Go binary when the container starts
 CMD ["./main"]
