@@ -8,6 +8,7 @@ The API takes a single, multiple or partial OA/SIC codes as input and returns a 
 ### Available scripts
 
 - `make help` - Displays a help menu with available `make` scripts
+- `make all` - Runs audit, test and build commands
 - `make update` - Go gets all of the dependencies and downloads them
 - `make build` - Builds ./Dockerfile image name: test-project
 - `make run` - First builds ./Dockerfile with image name: test-project and then runs a container, with name: test_api, on port 5000
@@ -20,8 +21,8 @@ The API takes a single, multiple or partial OA/SIC codes as input and returns a 
 | GRACEFUL_SHUTDOWN_TIMEOUT    | 5s        | The graceful shutdown timeout in seconds (`time.Duration` format)
 | HEALTHCHECK_INTERVAL         | 30s       | Time between self-healthchecks (`time.Duration` format)
 | HEALTHCHECK_CRITICAL_TIMEOUT | 90s       | Time to wait until an unhealthy dependent propagates its state to make this app unhealthy (`time.Duration` format)
-|	AREA_DATA_FILE               | `envconfig:"AREA_DATA_FILE"` | The data files with the areas
-|	INDUSTRY_DATA_FILE           | `envconfig:"INDUSTRY_DATA_FILE"` |The data files with the industries
+|	AREA_DATA_FILE               | `data/2011 OAC Clusters and Names csv v2.csv` | The data files with the areas
+|	INDUSTRY_DATA_FILE           | `data/SIC07_CH_condensed_list_en.csv` |The data files with the industries
 
 ## Quick setup
 
@@ -106,108 +107,6 @@ This will return results of the form:
             }
         ]
     }
-}
-```
-
-```shell
-curl 'http://localhost:3002/json-schema'
-```
-This will return results of the form:
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://gitlab.com/flaxandteal/onyx/dp-nlp-search-scrubber/payloads/scrubber-resp",
-  "$ref": "#/$defs/ScrubberResp",
-  "$defs": {
-    "AreaResp": {
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "region": {
-          "type": "string"
-        },
-        "region_code": {
-          "type": "string"
-        },
-        "codes": {
-          "patternProperties": {
-            ".*": {
-              "type": "string"
-            }
-          },
-          "type": "object"
-        }
-      },
-      "additionalProperties": false,
-      "type": "object",
-      "required": [
-        "name",
-        "region",
-        "region_code",
-        "codes"
-      ]
-    },
-    "IndustryResp": {
-      "properties": {
-        "code": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        }
-      },
-      "additionalProperties": false,
-      "type": "object",
-      "required": [
-        "code",
-        "name"
-      ]
-    },
-    "Results": {
-      "properties": {
-        "areas": {
-          "items": {
-            "$ref": "#/$defs/AreaResp"
-          },
-          "type": "array"
-        },
-        "industries": {
-          "items": {
-            "$ref": "#/$defs/IndustryResp"
-          },
-          "type": "array"
-        }
-      },
-      "additionalProperties": false,
-      "type": "object",
-      "required": [
-        "areas",
-        "industries"
-      ]
-    },
-    "ScrubberResp": {
-      "properties": {
-        "time": {
-          "type": "string"
-        },
-        "query": {
-          "type": "string"
-        },
-        "results": {
-          "$ref": "#/$defs/Results"
-        }
-      },
-      "additionalProperties": false,
-      "type": "object",
-      "required": [
-        "time",
-        "query",
-        "results"
-      ]
-    }
-  }
 }
 ```
 
