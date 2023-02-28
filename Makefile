@@ -1,21 +1,28 @@
 BINPATH ?= build
 
+GREEN  := $(shell tput -Txterm setaf 2)
+YELLOW := $(shell tput -Txterm setaf 3)
+WHITE  := $(shell tput -Txterm setaf 7)
+CYAN   := $(shell tput -Txterm setaf 6)
+RESET  := $(shell tput -Txterm sgr0)
+
 BUILD_TIME=$(shell date +%s)
 GIT_COMMIT=$(shell git rev-parse HEAD)
 VERSION ?= $(shell git tag --points-at HEAD | grep ^v | head -n 1)
 
 LDFLAGS = -ldflags "-X main.BuildTime=$(BUILD_TIME) -X main.GitCommit=$(GIT_COMMIT) -X main.Version=$(VERSION)"
 
-.PHONY: all
+.PHONY: all ## runs audit, test and build commands
 all: audit test build
 
 .PHONY: audit
 audit:
 	go list -json -m all | nancy sleuth
 
-.PHONY: lint
-lint:
-	exit
+.PHONY: lint ## Formats the code using go fmt and go vet
+lint: 
+	go fmt ./...
+	go vet ./...
 
 .PHONY: build 
 build: Dockerfile ## Builds ./Dockerfile image name: scrubber
