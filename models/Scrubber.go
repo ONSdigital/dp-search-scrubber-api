@@ -1,4 +1,4 @@
-package payloads
+package models
 
 type ScrubberResp struct {
 	Time    string  `json:"time"`

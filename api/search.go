@@ -9,8 +9,7 @@ import (
 	"time"
 
 	"github.com/ONSdigital/dp-nlp-search-scrubber/db"
-	"github.com/ONSdigital/dp-nlp-search-scrubber/params"
-	"github.com/ONSdigital/dp-nlp-search-scrubber/payloads"
+	"github.com/ONSdigital/dp-nlp-search-scrubber/models"
 	"github.com/ONSdigital/log.go/v2/log"
 )
 
@@ -27,16 +26,16 @@ func PrefixSearchHandler(ctx context.Context, scrubberDB *db.ScrubberDB) http.Ha
 		log.Namespace = "search-scrubber-handler"
 		ctx := context.Background()
 
-		scrubberParams := params.GetScrubberParams(r.URL.Query())
+		scrubberParams := models.GetScrubberParams(r.URL.Query())
 		querySl := strings.Split(scrubberParams.Query, " ")
 
 		matchingAreas := getAllMatchingAreas(querySl, scrubberDB)
 		matchingIndustries := getAllMatchingIndustries(querySl, scrubberDB)
 
-		scrubberResp := payloads.ScrubberResp{
+		scrubberResp := models.ScrubberResp{
 			Time:  fmt.Sprint(time.Since(start).Microseconds(), "µs"),
 			Query: scrubberParams.Query,
-			Results: payloads.Results{
+			Results: models.Results{
 				Areas:      matchingAreas,
 				Industries: matchingIndustries,
 			},
@@ -51,9 +50,9 @@ func PrefixSearchHandler(ctx context.Context, scrubberDB *db.ScrubberDB) http.Ha
 	}
 }
 
-func getAllMatchingAreas(querySl []string, ScrubberDB *db.ScrubberDB) []*payloads.AreaResp {
-	var matchingAreas []*payloads.AreaResp
-	areaRespMap := make(map[string]*payloads.AreaResp)
+func getAllMatchingAreas(querySl []string, ScrubberDB *db.ScrubberDB) []*models.AreaResp {
+	var matchingAreas []*models.AreaResp
+	areaRespMap := make(map[string]*models.AreaResp)
 	for _, q := range querySl {
 		matchingRecords := ScrubberDB.AreasPFM.GetByPrefix(strings.ToUpper(q))
 		for _, rData := range matchingRecords {
@@ -62,7 +61,7 @@ func getAllMatchingAreas(querySl []string, ScrubberDB *db.ScrubberDB) []*payload
 			if _, found := areaRespMap[key]; found {
 				areaRespMap[key].Codes[area.OutputAreaCode] = area.OutputAreaCode
 			} else {
-				areaResp := &payloads.AreaResp{
+				areaResp := &models.AreaResp{
 					Name:       area.LAName,
 					Region:     area.RegionName,
 					RegionCode: area.RegionCode,
@@ -80,15 +79,15 @@ func getAllMatchingAreas(querySl []string, ScrubberDB *db.ScrubberDB) []*payload
 	return matchingAreas
 }
 
-func getAllMatchingIndustries(querySl []string, ScrubberDB *db.ScrubberDB) []*payloads.IndustryResp {
-	var matchingIndustries []*payloads.IndustryResp
+func getAllMatchingIndustries(querySl []string, ScrubberDB *db.ScrubberDB) []*models.IndustryResp {
+	var matchingIndustries []*models.IndustryResp
 	validation := make(map[string]string)
 	for _, q := range querySl {
 		matchingRecords := ScrubberDB.IndustriesPFM.GetByPrefix(strings.ToUpper(q))
 		for _, rData := range matchingRecords {
 			industry := rData.(*db.Industry)
 			if _, valid := validation[industry.Code]; !valid {
-				industryResp := &payloads.IndustryResp{
+				industryResp := &models.IndustryResp{
 					Code: industry.Code,
 					Name: industry.Name,
 				}
