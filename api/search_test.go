@@ -179,7 +179,7 @@ func TestPrefixSearchHandler(t *testing.T) {
 	rr := httptest.NewRecorder()
 
 	// Call the handler function with the mock data and request
-	handler := PrefixSearchHandler(context.Background(), scrubberDB)
+	handler := PrefixSearchHandler(scrubberDB)
 	handler(rr, req)
 
 	// Check the response status code

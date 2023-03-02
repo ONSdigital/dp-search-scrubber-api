@@ -3,12 +3,12 @@ package models
 type ScrubberResp struct {
 	Time    string  `json:"time"`
 	Query   string  `json:"query"`
-	Results Results `json:"results"`
+	Results Results `json:"results,omitempty"`
 }
 
 type Results struct {
-	Areas      []*AreaResp     `json:"areas"`
-	Industries []*IndustryResp `json:"industries"`
+	Areas      []*AreaResp     `json:"areas,omitempty"`
+	Industries []*IndustryResp `json:"industries,omitempty"`
 }
 
 type AreaResp struct {
