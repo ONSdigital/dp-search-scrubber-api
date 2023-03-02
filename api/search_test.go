@@ -10,7 +10,7 @@ import (
 	"testing"
 
 	"github.com/ONSdigital/dp-nlp-search-scrubber/api/mock"
-	"github.com/ONSdigital/dp-nlp-search-scrubber/payloads"
+	"github.com/ONSdigital/dp-nlp-search-scrubber/models"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -71,12 +71,12 @@ func TestGetAllMatchingAreas(t *testing.T) {
 	tests := []struct {
 		name          string
 		query         []string
-		expectedNames []*payloads.AreaResp
+		expectedNames []*models.AreaResp
 	}{
 		{
 			name:  "matching single query",
 			query: []string{"OAC1"},
-			expectedNames: []*payloads.AreaResp{
+			expectedNames: []*models.AreaResp{
 				{
 					Name:       "LAN1",
 					Region:     "RN1",
@@ -90,7 +90,7 @@ func TestGetAllMatchingAreas(t *testing.T) {
 		{
 			name:  "matching multiple queries",
 			query: []string{"OAC1", "OAC2"},
-			expectedNames: []*payloads.AreaResp{
+			expectedNames: []*models.AreaResp{
 				{
 					Name:       "LAN1",
 					Region:     "RN1",
@@ -115,7 +115,7 @@ func TestGetAllMatchingAreas(t *testing.T) {
 			// the last area first, keep that in mind when updating tests
 			name:  "matching partial queries",
 			query: []string{"OAC"},
-			expectedNames: []*payloads.AreaResp{
+			expectedNames: []*models.AreaResp{
 				{
 					Name:       "LAN3",
 					Region:     "RN3",
@@ -145,7 +145,7 @@ func TestGetAllMatchingAreas(t *testing.T) {
 		{
 			name:          "no matching queries",
 			query:         []string{"foo", "bar"},
-			expectedNames: []*payloads.AreaResp{},
+			expectedNames: []*models.AreaResp{},
 		},
 	}
 
@@ -186,7 +186,7 @@ func TestPrefixSearchHandler(t *testing.T) {
 	assert.Equal(t, http.StatusOK, rr.Code)
 
 	// Parse the response body into a ScrubberResp struct
-	var resp payloads.ScrubberResp
+	var resp models.ScrubberResp
 	err := json.Unmarshal(rr.Body.Bytes(), &resp)
 	assert.Nil(t, err)
 
