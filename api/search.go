@@ -1,7 +1,6 @@
 package api
 
 import (
-	"context"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -13,18 +12,11 @@ import (
 	"github.com/ONSdigital/log.go/v2/log"
 )
 
-type HelloResponse struct {
-	Message string `json:"message,omitempty"`
-}
-
-// HelloHandler returns function containing a simple hello world example of an api handler
-func PrefixSearchHandler(ctx context.Context, scrubberDB *db.ScrubberDB) http.HandlerFunc {
-	log.Info(ctx, "api contains /scrubber/search endpoint which return a list of possible locations and industries based on OAC and SIC")
+func PrefixSearchHandler(scrubberDB *db.ScrubberDB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		log.Info(r.Context(), "api contains /scrubber/search endpoint which return a list of possible locations and industries based on OAC and SIC")
 		w.Header().Set("Content-Type", "application/json")
 		start := time.Now()
-		log.Namespace = "search-scrubber-handler"
-		ctx := context.Background()
 
 		scrubberParams := models.GetScrubberParams(r.URL.Query())
 		querySl := strings.Split(scrubberParams.Query, " ")
@@ -43,10 +35,12 @@ func PrefixSearchHandler(ctx context.Context, scrubberDB *db.ScrubberDB) http.Ha
 
 		resp, err := json.Marshal(scrubberResp)
 		if err != nil {
-			log.Fatal(ctx, "Error marshaling JSON: %v", err)
+			log.Error(r.Context(), "Error marshaling JSON: %v", err)
 		}
 
-		w.Write(resp)
+		if statusCode, err := w.Write(resp); err != nil {
+			log.Error(r.Context(), err.Error()+fmt.Sprintf("%d", statusCode), err)
+		}
 	}
 }
 

@@ -13,27 +13,22 @@ type ScrubberDB struct {
 	IndustriesPFM *prefixmap.PrefixMap
 }
 
-func LoadCsvData(cfg *config.Config) *ScrubberDB {
-	// setting up a logger
-	log.Namespace = "Scrubber DB"
-	ctx := context.Background()
-
+func LoadCsvData(ctx context.Context, cfg *config.Config) *ScrubberDB {
 	// gets area data
 	areaData, err := getArea(cfg)
 	if err != nil {
-		log.Fatal(ctx, "Error loading Area data: ", err)
+		log.Error(ctx, "Error loading Area data: ", err)
+	} else {
+		log.Info(ctx, "Successfully loaded Area data")
 	}
-
-	log.Info(ctx, "Successfully loaded Area data")
 
 	// gets industry data
 	industryData, err := getIndustry(cfg)
 	if err != nil {
-		log.Info(ctx, err.Error())
-		log.Fatal(ctx, "Error loading Industry data: ", err)
+		log.Error(ctx, "Error loading Industry data: ", err)
+	} else {
+		log.Info(ctx, "Successfully loaded Industry data")
 	}
-
-	log.Info(ctx, "Successfully loaded Industry data")
 
 	// creates a new area prefixmap and populates it
 	areasMap := prefixmap.New()
