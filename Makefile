@@ -19,14 +19,13 @@ all: audit test build
 audit:
 	go list -json -m all | nancy sleuth
 
-.PHONY: lint ## Formats the code using go fmt and go vet
-lint: 
-	go fmt ./...
-	go vet ./...
-
 .PHONY: build 
 build: Dockerfile ## Builds ./Dockerfile image name: scrubber
 	docker build -t scrubber .
+
+.PHONY: lint ## Formats the code using go fmt and go vet
+lint: 
+	golangci-lint run ./...
 
 .PHONY: run
 run: build ## First builds ./Dockerfile with image name: scrubber and then runs a container, with name: scrubber_container, on port 3002 
