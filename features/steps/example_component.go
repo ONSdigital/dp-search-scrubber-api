@@ -2,10 +2,11 @@ package steps
 
 import (
 	"context"
+	"net/http"
+
 	"github.com/ONSdigital/dp-nlp-search-scrubber/config"
 	"github.com/ONSdigital/dp-nlp-search-scrubber/service"
 	"github.com/ONSdigital/dp-nlp-search-scrubber/service/mock"
-	"net/http"
 
 	componenttest "github.com/ONSdigital/dp-component-test"
 	"github.com/ONSdigital/dp-healthcheck/healthcheck"

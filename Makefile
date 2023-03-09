@@ -60,7 +60,7 @@ run_locally: ## Run the app locally
 	go run .
  
 .PHONY: test
-test:	## Runs all tests with -race and -cover flags
+test: convey test-component	## Runs all tests with -race and -cover flags
 	go test -race -cover ./...
 
 .PHONY: test-component
