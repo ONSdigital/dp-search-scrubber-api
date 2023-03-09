@@ -8,10 +8,20 @@ The API takes a single, multiple or partial OA/SIC codes as input and returns a 
 ### Available scripts
 
 - `make help` - Displays a help menu with available `make` scripts
-- `make all` - Runs audit, test and build commands
+- `make all` - Runs audit test and build commands
+- `make audit` - Audits and finds vulnerable dependencies
+- `make build` - Builds ./Dockerfile image name: nlp_hub
+- `make build_locally` - Build bin file in folder build
+- `make clean` - Removes /bin folder
+- `make convey` - Runs only convey tests
+- `make debug` - Runs application locally with debug mode on
+- `make fmt` - Formats the code using go fmt and go vet
+- `make lint` - Automated checking of your source code for programmatic and stylistic errors
+- `make run` - Runs container name: hub from image name: nlp_hub
+- `make run_locally` - Runs the app locally
+- `make test` - Runs all tests with -cover -race flags
+- `make test_component` - Test components
 - `make update` - Go gets all of the dependencies and downloads them
-- `make build` - Builds ./Dockerfile image name: test-project
-- `make run` - First builds ./Dockerfile with image name: test-project and then runs a container, with name: test_api, on port 5000
 
 ### Configuration
 
@@ -59,8 +69,20 @@ curl 'http://localhost:3002/health'
 ```
 This will return results of the form:
 
-```shell
-OK
+```json
+{
+    "status": "OK",
+    "version": {
+        "build_time": "2020-09-26T14:30:18+03:00",
+        "git_commit": "6584b786caac36b6214ffe04bf62f058d4021538",
+        "language": "go",
+        "language_version": "go1.19.5",
+        "version": "v0.1.0"
+    },
+    "uptime": 7771,
+    "start_time": "2023-03-09T07:46:43.587143363Z",
+    "checks": []
+}
 ```
 
 ```shell
@@ -72,10 +94,7 @@ This will return results of the form:
 {
     "time": "4µs",
     "query": "dentists",
-    "results": {
-        "areas": null,
-        "industries": null
-    }
+    "results": {}
 }
 ```
 

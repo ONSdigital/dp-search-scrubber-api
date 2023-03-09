@@ -12,13 +12,13 @@ type Results struct {
 }
 
 type AreaResp struct {
-	Name       string            `json:"name"`
-	Region     string            `json:"region"`
-	RegionCode string            `json:"region_code"`
-	Codes      map[string]string `json:"codes"`
+	Name       string            `json:"name,omitempty"`
+	Region     string            `json:"region,omitempty"`
+	RegionCode string            `json:"region_code,omitempty"`
+	Codes      map[string]string `json:"codes,omitempty"`
 }
 
 type IndustryResp struct {
-	Code string `json:"code"`
-	Name string `json:"name"`
+	Code string `json:"code,omitempty"`
+	Name string `json:"name,omitempty"`
 }

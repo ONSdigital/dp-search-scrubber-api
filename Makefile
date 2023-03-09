@@ -23,6 +23,15 @@ audit: ## Audits and finds vulnerable dependencies
 build: Dockerfile ## Builds ./Dockerfile image name: scrubber
 	docker build -t scrubber .
 
+.PHONY: build_locally 
+build_locally: ## builds bin
+	go build -tags 'production' $(LDFLAGS) -o $(BINPATH)/scrubber
+
+.PHONY: clean
+clean: ## Removes /bin folder
+	rm -fr ./build
+	rm -fr ./vendor
+
 .PHONY: convey
 convey: ## Runs Convey tests
 	goconvey ./...
@@ -45,14 +54,17 @@ lint:
 .PHONY: run
 run: build ## First builds ./Dockerfile with image name: scrubber and then runs a container, with name: scrubber_container, on port 3002 
 	docker run -p 3002:3002 --name scrubber_container -ti --rm scrubber
+
+.PHONY: run_locally 
+run_locally: ## Run the app locally
+	go run .
  
 .PHONY: test
 test:	## Runs all tests with -race and -cover flags
 	go test -race -cover ./...
 
-
 .PHONY: test-component
-test-component: ## Tests all components
+test-component: ## Runs component tests
 	go test -cover -coverpkg=github.com/ONSdigital/dp-nlp-search-scrubber/... -component
 
 .PHONY: update
