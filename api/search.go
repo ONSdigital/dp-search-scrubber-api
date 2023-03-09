@@ -17,16 +17,17 @@ func PrefixSearchHandler(scrubberDB *db.ScrubberDB) http.HandlerFunc {
 		log.Info(r.Context(), "api contains /scrubber/search endpoint which return a list of possible locations and industries based on OAC and SIC")
 		w.Header().Set("Content-Type", "application/json")
 		start := time.Now()
+
 		if len(scrubberDB.AreasPFM.Children) == 0 && len(scrubberDB.IndustriesPFM.Children) == 0 {
 			w.Header().Set("X-Error-Message", "There is no data to display due to a database issue")
 			w.WriteHeader(http.StatusNoContent)
 			return
 		}
-		scrubberParams := models.GetScrubberParams(r.URL.Query())
-		querySl := strings.Split(scrubberParams.Query, " ")
 
-		matchingAreas := getAllMatchingAreas(querySl, scrubberDB)
-		matchingIndustries := getAllMatchingIndustries(querySl, scrubberDB)
+		scrubberParams := models.GetScrubberParams(r.URL.Query())
+
+		matchingAreas := getAllMatchingAreas(scrubberParams.OAC, scrubberDB)
+		matchingIndustries := getAllMatchingIndustries(scrubberParams.SIC, scrubberDB)
 
 		scrubberResp := models.ScrubberResp{
 			Time:  fmt.Sprint(time.Since(start).Microseconds(), "µs"),
