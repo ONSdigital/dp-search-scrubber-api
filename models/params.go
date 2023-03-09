@@ -1,7 +1,6 @@
 package models
 
 import (
-	"fmt"
 	"net/url"
 	"regexp"
 	"strings"
@@ -43,7 +42,6 @@ func (sp *ScrubberParams) populateOACandSICcodes() {
 
 	cache := make(map[string]string)
 	for _, v := range querySl {
-		fmt.Printf("v: %s\n", v)
 
 		if _, ok := cache[v]; !ok && sicCodeRe.MatchString(v) {
 			cache[v] = v
@@ -54,6 +52,5 @@ func (sp *ScrubberParams) populateOACandSICcodes() {
 			cache[v] = v
 			sp.OAC = append(sp.OAC, v)
 		}
-		fmt.Println(sp)
 	}
 }
