@@ -26,6 +26,6 @@ func TestSetup(t *testing.T) {
 	assert.Equal(t, r, api.Router)
 
 	// Assert that the "/scrubber/search" route was added
-	route := r.Get("PrefixSearchHandler")
-	assert.NotNil(t, route, "Expected PrefixSearchHandler to be added")
+	route := r.Get("FindAllMatchingAreasAndIndustriesHandler")
+	assert.NotNil(t, route, "Expected FindAllMatchingAreasAndIndustriesHandler to be added")
 }

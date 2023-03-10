@@ -11,7 +11,7 @@ The API takes a single, multiple or partial OA/SIC codes as input and returns a 
 - `make all` - Runs audit test and build commands
 - `make audit` - Audits and finds vulnerable dependencies
 - `make build` - Builds ./Dockerfile image name: nlp_hub
-- `make build_locally` - Build bin file in folder build
+- `make build_bin` - Build bin file in folder build
 - `make clean` - Removes /bin folder
 - `make convey` - Runs only convey tests
 - `make debug` - Runs application locally with debug mode on

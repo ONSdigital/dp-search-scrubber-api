@@ -20,6 +20,8 @@ func Setup(ctx context.Context, r *mux.Router, cfg *config.Config) *API {
 	}
 
 	db := db.LoadCsvData(ctx, cfg)
-	r.HandleFunc("/scrubber/search", PrefixSearchHandler(db)).Methods("GET").Name("PrefixSearchHandler")
+
+	r.HandleFunc("/scrubber/search", FindAllMatchingAreasAndIndustriesHandler(db)).Methods("GET").Name("FindAllMatchingAreasAndIndustriesHandler")
+
 	return api
 }
