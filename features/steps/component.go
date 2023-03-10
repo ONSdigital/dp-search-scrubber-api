@@ -38,6 +38,9 @@ func NewComponent() (*Component, error) {
 		return nil, err
 	}
 
+	c.Config.AreaDataFile = "features/testdata/areas.csv"
+	c.Config.IndustryDataFile = "features/testdata/industries.csv"
+
 	initMock := &mock.InitialiserMock{
 		DoGetHealthCheckFunc: c.DoGetHealthcheckOk,
 		DoGetHTTPServerFunc:  c.DoGetHTTPServer,
