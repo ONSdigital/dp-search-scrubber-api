@@ -5,6 +5,7 @@ go 1.19
 require (
 	github.com/ONSdigital/dp-component-test v0.9.0
 	github.com/ONSdigital/dp-healthcheck v1.5.0
+	github.com/ONSdigital/dp-net v1.5.0
 	github.com/ONSdigital/dp-net/v2 v2.8.0
 	github.com/ONSdigital/log.go/v2 v2.3.0
 	github.com/alediaferia/prefixmap v1.0.1
@@ -21,7 +22,6 @@ require (
 	github.com/ONSdigital/dp-api-clients-go v1.43.0 // indirect
 	github.com/ONSdigital/dp-api-clients-go/v2 v2.187.0 // indirect
 	github.com/ONSdigital/dp-mongodb-in-memory v1.5.0 // indirect
-	github.com/ONSdigital/dp-net v1.5.0 // indirect
 	github.com/chromedp/cdproto v0.0.0-20211126220118-81fa0469ad77 // indirect
 	github.com/chromedp/chromedp v0.7.6 // indirect
 	github.com/chromedp/sysutil v1.0.0 // indirect
