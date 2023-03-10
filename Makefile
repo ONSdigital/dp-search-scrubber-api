@@ -12,8 +12,8 @@ VERSION ?= $(shell git tag --points-at HEAD | grep ^v | head -n 1)
 
 LDFLAGS = -ldflags "-X main.BuildTime=$(BUILD_TIME) -X main.GitCommit=$(GIT_COMMIT) -X main.Version=$(VERSION)"
 
-.PHONY: all ## runs audit, test and build commands
-all: audit test build
+.PHONY: all
+all: delimiter-AUDIT audit delimiter-LINTERS lint delimiter-UNIT-TESTS test delimiter-COMPONENT_TESTS test-component delimiter-FINISH ## Runs multiple targets, audit, lint, test and test-component
 
 .PHONY: audit
 audit: ## Audits and finds vulnerable dependencies
@@ -23,8 +23,8 @@ audit: ## Audits and finds vulnerable dependencies
 build: Dockerfile ## Builds ./Dockerfile image name: scrubber
 	docker build -t scrubber .
 
-.PHONY: build_locally 
-build_locally: ## builds bin
+.PHONY: build-bin
+build_bin: ## builds bin
 	go build -tags 'production' $(LDFLAGS) -o $(BINPATH)/scrubber
 
 .PHONY: clean
@@ -41,13 +41,22 @@ debug: ## Runs the api locally in debug mode
 	go build -tags 'debug' $(LDFLAGS) -o $(BINPATH)/dp-nlp-search-scrubber
 	HUMAN_LOG=1 DEBUG=1 $(BINPATH)/dp-nlp-search-scrubber
 
-.PHONY: fmt ## Formats the code using go fmt and go vet
-fmt: 
+.PHONY: delimiter-%
+delimiter-%:
+	@echo '===================${GREEN} $* ${RESET}==================='
+
+.PHONY: fmt 
+fmt: ## Formats the code using go fmt and go vet
 	go fmt ./...
 	go vet ./...
 
-.PHONY: lint ## Automated checking of your source code for programmatic and stylistic errors
-lint: 
+.PHONY: lint 
+lint: ## Automated checking of your source code for programmatic and stylistic errors
+	golangci-lint run ./...
+
+.PHONY: lint-local 
+lint-local: ## Automated checking of your source code for programmatic and stylistic errors
+	go install linttool change this
 	golangci-lint run ./...
 
 
@@ -55,8 +64,8 @@ lint:
 run: build ## First builds ./Dockerfile with image name: scrubber and then runs a container, with name: scrubber_container, on port 3002 
 	docker run -p 3002:3002 --name scrubber_container -ti --rm scrubber
 
-.PHONY: run_locally 
-run_locally: ## Run the app locally
+.PHONY: run-locally 
+run-locally: ## Run the app locally
 	go run .
  
 .PHONY: test
