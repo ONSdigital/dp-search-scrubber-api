@@ -24,7 +24,7 @@ build: Dockerfile ## Builds ./Dockerfile image name: scrubber
 	docker build -t scrubber .
 
 .PHONY: build-bin
-build_bin: ## builds bin
+build-bin: ## builds bin
 	go build -tags 'production' $(LDFLAGS) -o $(BINPATH)/scrubber
 
 .PHONY: clean
@@ -73,7 +73,7 @@ test: ## Runs standard unit test tests
 	go test -race -cover ./... 
 
 .PHONY: test-all
-test: convey test-component	test ## Runs all tests with -race and -cover flags
+test-all: convey test-component	test ## Runs all tests with -race and -cover flags
 	go test -race -cover ./...
 
 .PHONY: test-component
