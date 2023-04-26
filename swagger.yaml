@@ -11,12 +11,12 @@ paths:
   /scrubber/search:
     get:
       summary: Identifies OA and Industry Classification associated with a given OAC or SIC 
-      description: Returns information associated with those codes, like Name,Region Name/Code, OAC for areas and Name and SIC for industries.
+      description: Returns information associated with those codes, like Name, Region Name/Code, OAC for areas and Name and SIC for industries.
       produces:
         - application/json
       parameters:
-        - name: "q"
-          in: "q"
+        - in: query
+          name: query_string
           description: "The query string to search data by"
           required: true
           type: "string"
@@ -25,8 +25,6 @@ paths:
           description: OK
           schema:
             $ref: "#/definitions/ScrubberResp"
-        500:
-          $ref: '#/responses/InternalError'
           examples:
             application/json:
               time: "33µs"
@@ -41,6 +39,9 @@ paths:
                 industries:
                   - code: "01140"
                     name: "Growing of sugar cane"
+        500:
+          $ref: '#/responses/InternalError'
+
   /health:
     get:
       tags:

@@ -1,6 +1,7 @@
 package db
 
 import (
+	"context"
 	"testing"
 
 	"github.com/ONSdigital/dp-nlp-search-scrubber/config"
@@ -9,8 +10,7 @@ import (
 )
 
 func TestLoadCsvData(t *testing.T) {
-	// Split API tests from Unit tests
-	skipUnitTests(t)
+	ctx := context.Background()
 
 	m := mock.CreateFiles(t)
 	defer m.CloseFiles()
@@ -20,7 +20,7 @@ func TestLoadCsvData(t *testing.T) {
 		IndustryDataFile: "industry.csv",
 	}
 
-	sr := LoadCsvData(&cfg)
+	sr := LoadCsvData(ctx, &cfg)
 
 	expectedAreas := []struct {
 		OutputAreaCode     string

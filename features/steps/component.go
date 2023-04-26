@@ -2,10 +2,11 @@ package steps
 
 import (
 	"context"
+	"net/http"
+
 	"github.com/ONSdigital/dp-nlp-search-scrubber/config"
 	"github.com/ONSdigital/dp-nlp-search-scrubber/service"
 	"github.com/ONSdigital/dp-nlp-search-scrubber/service/mock"
-	"net/http"
 
 	componenttest "github.com/ONSdigital/dp-component-test"
 	"github.com/ONSdigital/dp-healthcheck/healthcheck"
@@ -36,6 +37,9 @@ func NewComponent() (*Component, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	c.Config.AreaDataFile = "features/testdata/areas.csv"
+	c.Config.IndustryDataFile = "features/testdata/industries.csv"
 
 	initMock := &mock.InitialiserMock{
 		DoGetHealthCheckFunc: c.DoGetHealthcheckOk,
