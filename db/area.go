@@ -17,10 +17,12 @@ type Area struct {
 
 func getArea(cfg *config.Config) ([]*Area, error) {
 	file, err := os.Open(cfg.AreaDataFile)
-	defer file.Close()
+
 	if err != nil {
 		return nil, err
 	}
+
+	defer file.Close()
 
 	ar := []*Area{}
 

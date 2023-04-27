@@ -61,7 +61,9 @@ func FindAllMatchingAreasAndIndustriesHandler(scrubberDB *db.ScrubberDB) http.Ha
 				trace_id: getRequestId(ctx),
 			}
 
-			json.NewEncoder(w).Encode(errObj)
+			if err := json.NewEncoder(w).Encode(errObj); err != nil {
+				log.Fatal(ctx, "cannot encode errObj", err)
+			}
 		}
 	}
 }
