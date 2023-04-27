@@ -16,12 +16,14 @@ type Config struct {
 	IndustryDataFile           string        `envconfig:"INDUSTRY_DATA_FILE"`
 }
 
+var cfg *Config
+
 // Get returns the default config with any modifications through environment
 // variables
 func Get() (*Config, error) {
-	cfg := Config{}
+	cfg := &Config{}
 
-	cfg = Config{
+	cfg = &Config{
 		BindAddr:                   ":3002",
 		GracefulShutdownTimeout:    5 * time.Second,
 		HealthCheckInterval:        30 * time.Second,
@@ -30,5 +32,5 @@ func Get() (*Config, error) {
 		IndustryDataFile:           "data/SIC07_CH_condensed_list_en.csv",
 	}
 
-	return &cfg, envconfig.Process("", cfg)
+	return cfg, envconfig.Process("", cfg)
 }
