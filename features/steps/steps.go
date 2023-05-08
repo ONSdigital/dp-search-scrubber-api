@@ -2,7 +2,8 @@ package steps
 
 import (
 	"encoding/json"
-	"io/ioutil"
+	"io"
+	"os"
 	"strings"
 
 	"github.com/cucumber/godog"
@@ -17,9 +18,9 @@ func (c *Component) RegisterSteps(ctx *godog.ScenarioContext) {
 
 func (c *Component) theResponseBodyIsTheSameAsTheJsonIn(expected string) error {
 	responseBody := c.apiFeature.HttpResponse.Body
-	body, _ := ioutil.ReadAll(responseBody)
+	body, _ := io.ReadAll(responseBody)
 
-	content, err := ioutil.ReadFile(expected)
+	content, err := os.ReadFile(expected)
 	if err != nil {
 		return err
 	}

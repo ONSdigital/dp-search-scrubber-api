@@ -31,10 +31,6 @@ build-bin: ## builds bin
 clean: ## Removes /bin folder
 	rm -fr ./build
 	rm -fr ./vendor
-
-.PHONY: convey
-convey: ## Runs Convey tests
-	goconvey ./...
 	
 .PHONY: debug
 debug: ## Runs the api locally in debug mode
@@ -53,12 +49,6 @@ fmt: ## Formats the code using go fmt and go vet
 .PHONY: lint 
 lint: ## Automated checking of your source code for programmatic and stylistic errors
 	golangci-lint run ./...
-
-.PHONY: lint-local 
-lint-local: ## Automated checking of your source code for programmatic and stylistic errors
-	go install linttool change this
-	golangci-lint run ./...
-
 
 .PHONY: run
 run: build ## First builds ./Dockerfile with image name: scrubber and then runs a container, with name: scrubber_container, on port 3002 
@@ -79,6 +69,10 @@ test-all: convey test-component	test ## Runs all tests with -race and -cover fla
 .PHONY: test-component
 test-component: ## Runs component tests
 	go test -cover -coverpkg=github.com/ONSdigital/dp-nlp-search-scrubber/... -component
+
+.PHONY: test-convey
+test-convey: ## Runs Convey tests
+	goconvey ./...
 
 .PHONY: update
 update: ## Go gets all of the dependencies and downloads them
