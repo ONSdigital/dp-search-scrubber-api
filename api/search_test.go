@@ -1,15 +1,12 @@
 package api
 
 import (
-	"context"
 	"testing"
 
 	"github.com/ONSdigital/dp-nlp-search-scrubber/api/mock"
 	"github.com/ONSdigital/dp-nlp-search-scrubber/models"
 	"github.com/stretchr/testify/assert"
 )
-
-var ctx = context.Background()
 
 func TestGetAllMatchingIndustries(t *testing.T) {
 	// get a mock ScrubberDB with some industries

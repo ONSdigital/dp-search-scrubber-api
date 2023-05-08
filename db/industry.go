@@ -14,10 +14,11 @@ type Industry struct {
 
 func getIndustry(cfg *config.Config) ([]*Industry, error) {
 	file, err := os.Open(cfg.IndustryDataFile)
-	defer file.Close()
 	if err != nil {
 		return nil, err
 	}
+
+	defer file.Close()
 
 	ir := []*Industry{}
 
