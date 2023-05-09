@@ -5,12 +5,12 @@ import (
 	"testing"
 )
 
-type DbMockStruct struct {
+type DBMockStruct struct {
 	testAreaFile     *os.File
 	testIndustryFile *os.File
 }
 
-func CreateFiles(t *testing.T) DbMockStruct {
+func CreateFiles(t *testing.T) DBMockStruct {
 	af, err := os.Create("area.csv")
 	if err != nil {
 		t.Fatalf("Failed to create test file: %v", err)
@@ -31,13 +31,13 @@ func CreateFiles(t *testing.T) DbMockStruct {
 		t.Fatalf("Failed to write test data: %v", err)
 	}
 
-	return DbMockStruct{
+	return DBMockStruct{
 		testAreaFile:     af,
 		testIndustryFile: ti,
 	}
 }
 
-func (m *DbMockStruct) CloseFiles() {
+func (m *DBMockStruct) CloseFiles() {
 	m.testAreaFile.Close()
 	os.Remove("area.csv")
 

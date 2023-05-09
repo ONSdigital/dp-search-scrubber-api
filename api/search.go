@@ -54,11 +54,11 @@ func FindAllMatchingAreasAndIndustriesHandler(scrubberDB *db.ScrubberDB) http.Ha
 			errObj := ErrorResp{
 				Errors: []Errors{
 					{
-						Error_code: "", // to be added once Nathan finished the error-codes lib
-						Message:    "An unexpected error occurred while processing your request",
+						ErrorCode: "", // to be added once Nathan finished the error-codes lib
+						Message:   "An unexpected error occurred while processing your request",
 					},
 				},
-				Trace_id: getRequestId(ctx),
+				TraceID: getRequestID(ctx),
 			}
 
 			if err := json.NewEncoder(w).Encode(errObj); err != nil {
@@ -68,13 +68,13 @@ func FindAllMatchingAreasAndIndustriesHandler(scrubberDB *db.ScrubberDB) http.Ha
 	}
 }
 
-func getAllMatchingAreas(querySl []string, ScrubberDB *db.ScrubberDB) []*models.AreaResp {
+func getAllMatchingAreas(querySl []string, scrubberDB *db.ScrubberDB) []*models.AreaResp {
 	var matchingAreas []*models.AreaResp
 
 	areaRespMap := make(map[string]*models.AreaResp)
 
 	for _, q := range querySl {
-		matchingRecords := ScrubberDB.AreasPFM.GetByPrefix(strings.ToUpper(q))
+		matchingRecords := scrubberDB.AreasPFM.GetByPrefix(strings.ToUpper(q))
 
 		for _, rData := range matchingRecords {
 			area := rData.(*db.Area)
@@ -101,13 +101,13 @@ func getAllMatchingAreas(querySl []string, ScrubberDB *db.ScrubberDB) []*models.
 	return matchingAreas
 }
 
-func getAllMatchingIndustries(querySl []string, ScrubberDB *db.ScrubberDB) []*models.IndustryResp {
+func getAllMatchingIndustries(querySl []string, scrubberDB *db.ScrubberDB) []*models.IndustryResp {
 	var matchingIndustries []*models.IndustryResp
 
 	validation := make(map[string]string)
 
 	for _, q := range querySl {
-		matchingRecords := ScrubberDB.IndustriesPFM.GetByPrefix(strings.ToUpper(q))
+		matchingRecords := scrubberDB.IndustriesPFM.GetByPrefix(strings.ToUpper(q))
 
 		for _, rData := range matchingRecords {
 			industry := rData.(*db.Industry)
@@ -128,7 +128,7 @@ func getAllMatchingIndustries(querySl []string, ScrubberDB *db.ScrubberDB) []*mo
 	return matchingIndustries
 }
 
-func getRequestId(ctx context.Context) string {
+func getRequestID(ctx context.Context) string {
 	requestID := ctx.Value(request.RequestIdKey)
 	if requestID == nil {
 		requestID = ctx.Value("request-id")

@@ -42,7 +42,6 @@ func (sp *ScrubberParams) populateOACandSICcodes() {
 
 	cache := make(map[string]string)
 	for _, v := range querySl {
-
 		if _, ok := cache[v]; !ok && sicCodeRe.MatchString(v) {
 			cache[v] = v
 			sp.SIC = append(sp.SIC, v)

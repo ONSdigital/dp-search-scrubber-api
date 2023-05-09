@@ -1,11 +1,11 @@
 package api
 
 type ErrorResp struct {
-	Errors   []Errors
-	Trace_id string
+	Errors  []Errors
+	TraceID string
 }
 
 type Errors struct {
-	Error_code string
-	Message    string
+	ErrorCode string
+	Message   string
 }

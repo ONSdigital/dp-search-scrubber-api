@@ -43,7 +43,7 @@ func Areas() []*db.Area {
 	return areas
 }
 
-func Db() *db.ScrubberDB {
+func DB() *db.ScrubberDB {
 	areaData := Areas()
 	industryData := Inds()
 
