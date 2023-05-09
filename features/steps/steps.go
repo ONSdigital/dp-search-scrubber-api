@@ -13,10 +13,10 @@ import (
 func (c *Component) RegisterSteps(ctx *godog.ScenarioContext) {
 	c.apiFeature.RegisterSteps(ctx)
 
-	ctx.Step(`^the response body is the same as the json in "([^"]*)"$`, c.theResponseBodyIsTheSameAsTheJsonIn)
+	ctx.Step(`^the response body is the same as the json in "([^"]*)"$`, c.theResponseBodyIsTheSameAsTheJSONIn)
 }
 
-func (c *Component) theResponseBodyIsTheSameAsTheJsonIn(expected string) error {
+func (c *Component) theResponseBodyIsTheSameAsTheJSONIn(expected string) error {
 	responseBody := c.apiFeature.HttpResponse.Body
 	body, _ := io.ReadAll(responseBody)
 

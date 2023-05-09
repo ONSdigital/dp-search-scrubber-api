@@ -10,7 +10,7 @@ import (
 
 func TestGetAllMatchingIndustries(t *testing.T) {
 	// get a mock ScrubberDB with some industries
-	mockDB := mock.Db()
+	mockDB := mock.DB()
 
 	tests := []struct {
 		name          string
@@ -55,7 +55,7 @@ func TestGetAllMatchingIndustries(t *testing.T) {
 
 func TestGetAllMatchingAreas(t *testing.T) {
 	// get a mock ScrubberDB with some areas
-	mockDB := mock.Db()
+	mockDB := mock.DB()
 	tests := []struct {
 		name          string
 		query         []string

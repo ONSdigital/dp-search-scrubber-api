@@ -19,9 +19,9 @@ func Setup(ctx context.Context, r *mux.Router, cfg *config.Config) *API {
 		Router: r,
 	}
 
-	db := db.LoadCsvData(ctx, cfg)
+	dataBase := db.LoadCsvData(ctx, cfg)
 
-	r.HandleFunc("/scrubber/search", FindAllMatchingAreasAndIndustriesHandler(db)).Methods("GET").Name("FindAllMatchingAreasAndIndustriesHandler")
+	r.HandleFunc("/scrubber/search", FindAllMatchingAreasAndIndustriesHandler(dataBase)).Methods("GET").Name("FindAllMatchingAreasAndIndustriesHandler")
 
 	return api
 }

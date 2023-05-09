@@ -21,7 +21,6 @@ var cfg *Config
 // Get returns the default config with any modifications through environment
 // variables
 func Get() (*Config, error) {
-
 	cfg = &Config{
 		BindAddr:                   ":3002",
 		GracefulShutdownTimeout:    5 * time.Second,

@@ -48,7 +48,7 @@ fmt: ## Formats the code using go fmt and go vet
 
 .PHONY: lint 
 lint: ## Automated checking of your source code for programmatic and stylistic errors
-	golangci-lint run --timeout=300s ./...
+	golangci-lint run ./...
 
 .PHONY: run
 run: build ## First builds ./Dockerfile with image name: scrubber and then runs a container, with name: scrubber_container, on port 3002 
@@ -63,7 +63,7 @@ test: ## Runs standard unit test tests
 	go test -race -cover ./... 
 
 .PHONY: test-all
-test-all: convey test-component	test ## Runs all tests with -race and -cover flags
+test-all: test-convey test-component test ## Runs all tests with -race and -cover flags
 	go test -race -cover ./...
 
 .PHONY: test-component

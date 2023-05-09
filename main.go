@@ -15,9 +15,9 @@ import (
 const serviceName = "dp-nlp-search-scrubber"
 
 var (
-	BuildTime string = "1601119818"
-	GitCommit string = "6584b786caac36b6214ffe04bf62f058d4021538"
-	Version   string = "v0.1.0"
+	BuildTime = "1601119818"
+	GitCommit = "6584b786caac36b6214ffe04bf62f058d4021538"
+	Version   = "v0.1.0"
 )
 
 func main() {
