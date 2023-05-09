@@ -242,7 +242,7 @@ func TestClose(t *testing.T) {
 
 			closingErr := svc.Close(context.Background())
 			So(closingErr, ShouldNotBeNil)
-			So(err.Error(), ShouldResemble, "context deadline exceeded")
+			So(closingErr.Error(), ShouldResemble, "context deadline exceeded")
 			So(len(hcMock.StopCalls()), ShouldEqual, 1)
 			So(len(timeoutServerMock.ShutdownCalls()), ShouldEqual, 1)
 		})
