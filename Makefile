@@ -9,7 +9,7 @@ RESET  := $(shell tput -Txterm sgr0)
 export GOOS?=$(shell go env GOOS)
 export GOARCH?=$(shell go env GOARCH)
 
-MAIN=dp-search-api
+MAIN=dp-nlp-search-scrubber
 BUILD=build
 BUILD_ARCH=$(BUILD)/$(GOOS)-$(GOARCH)
 BIN_DIR?=.
