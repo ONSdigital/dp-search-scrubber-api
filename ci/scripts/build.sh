@@ -5,8 +5,7 @@ cwd=$(pwd)
 
 export GOPATH=$cwd/go
 
-pushd dp-nlp-search-scrubber
-  make build-bin && mv build/* $cwd/build
-  cp build/scrubber Dockerfile.concourse $cwd/build
+pushd dp-search-api
+  make build-bin && mv build/$(go env GOOS)-$(go env GOARCH)/* $cwd/build
+  cp Dockerfile.concourse $cwd/build
 popd
-

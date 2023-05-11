@@ -6,6 +6,14 @@ WHITE  := $(shell tput -Txterm setaf 7)
 CYAN   := $(shell tput -Txterm setaf 6)
 RESET  := $(shell tput -Txterm sgr0)
 
+export GOOS?=$(shell go env GOOS)
+export GOARCH?=$(shell go env GOARCH)
+
+MAIN=dp-search-api
+BUILD=build
+BUILD_ARCH=$(BUILD)/$(GOOS)-$(GOARCH)
+BIN_DIR?=.
+
 BUILD_TIME=$(shell date +%s)
 GIT_COMMIT=$(shell git rev-parse HEAD)
 VERSION ?= $(shell git tag --points-at HEAD | grep ^v | head -n 1)
@@ -25,7 +33,8 @@ build: Dockerfile ## Builds ./Dockerfile image name: scrubber
 
 .PHONY: build-bin
 build-bin: ## builds bin
-	go build -tags 'production' $(LDFLAGS) -o $(BINPATH)/scrubber
+	@mkdir -p $(BUILD_ARCH)/$(BIN_DIR)
+	go build $(LDFLAGS) -o $(BUILD_ARCH)/$(BIN_DIR)/$(MAIN)
 
 .PHONY: clean
 clean: ## Removes /bin folder
