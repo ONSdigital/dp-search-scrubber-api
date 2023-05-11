@@ -9,4 +9,3 @@ pushd dp-nlp-search-scrubber
   make build-bin
   cp build/scrubber Dockerfile.concourse $cwd/build
 popd
-
