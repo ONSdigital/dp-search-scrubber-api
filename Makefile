@@ -60,8 +60,8 @@ lint: ## Automated checking of your source code for programmatic and stylistic e
 	golangci-lint run ./...
 
 .PHONY: run
-run: build ## First builds ./Dockerfile with image name: scrubber and then runs a container, with name: scrubber_container, on port 3002 
-	docker run -p 3002:3002 --name scrubber_container -ti --rm scrubber
+run: build ## First builds ./Dockerfile with image name: scrubber and then runs a container, with name: scrubber_container, on port :28700 
+	docker run -p :28700::28700 --name scrubber_container -ti --rm scrubber
 
 .PHONY: run-locally 
 run-locally: ## Run the app locally

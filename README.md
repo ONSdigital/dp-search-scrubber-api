@@ -29,7 +29,7 @@ The API takes a single, multiple or partial OA/SIC codes as input and returns a 
 | Environment variable         | Default                                       | Description
 | ---------------------------- | ---------                                     | -----------
 | AREA_DATA_FILE               | `data/2011 OAC Clusters and Names csv v2.csv` | The data files with the areas
-| BIND_ADDR                    | :3002                                         | The host and port to bind to
+| BIND_ADDR                    | :28700                                        | The host and port to bind to
 | GRACEFUL_SHUTDOWN_TIMEOUT    | 5s                                            | The graceful shutdown timeout in seconds (`time.Duration` format)
 | HEALTHCHECK_INTERVAL         | 30s                                           | Time between self-healthchecks (`time.Duration` format)
 | HEALTHCHECK_CRITICAL_TIMEOUT | 90s                                           | Time to wait until an unhealthy dependent propagates its state to make this app unhealthy (`time.Duration` format)
@@ -52,10 +52,10 @@ go run .
 
 ## Usage
 
-Running the project either locally or in docker will expose port 3002.
+Running the project either locally or in docker will expose port 28700.
 
 ```shell
-curl 'http://localhost:3002/health' 
+curl 'http://localhost:28700/health' 
 ```
 This will return results of the form:
 
@@ -76,7 +76,7 @@ This will return results of the form:
 ```
 
 ```shell
-curl 'http://localhost:3002/scrubber/search?q=dentists%20in%20london'
+curl 'http://localhost:28700/scrubber/search?q=dentists%20in%20london'
 ```
 This will return results of the form:
 
@@ -90,7 +90,7 @@ This will return results of the form:
 
 If you search for an area output code like: E00000014 and an industry code like: 01140
 ```shell
-curl 'http://localhost:3002/scrubber/search?q=dentists%20in%20E00000014%2001140'
+curl 'http://localhost:28700/scrubber/search?q=dentists%20in%20E00000014%2001140'
 ```
 This will return results of the form:
 

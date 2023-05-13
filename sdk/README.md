@@ -21,7 +21,7 @@ import (
 
 func main() {
     ...
-	searchAPIClient := sdk.NewClient("http://localhost:3002")
+	searchAPIClient := sdk.NewClient("http://localhost:28700")
     ...
 }
 ```

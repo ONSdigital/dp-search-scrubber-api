@@ -14,7 +14,7 @@ func TestGetDefaultConfig(t *testing.T) {
 	assert.Nil(t, err)
 
 	// Assert that the configuration has the default values
-	assert.Equal(t, ":3002", config.BindAddr)
+	assert.Equal(t, ":28700", config.BindAddr)
 	assert.Equal(t, 5*time.Second, config.GracefulShutdownTimeout)
 	assert.Equal(t, 30*time.Second, config.HealthCheckInterval)
 	assert.Equal(t, 90*time.Second, config.HealthCheckCriticalTimeout)
