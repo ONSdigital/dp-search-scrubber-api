@@ -8,7 +8,7 @@ info:
 schemes:
   - http
 paths:
-  /scrubber/search:
+  /v1/search:
     get:
       summary: Identifies OA and Industry Classification associated with a given OAC or SIC 
       description: Returns information associated with those codes, like Name, Region Name/Code, OAC for areas and Name and SIC for industries.
