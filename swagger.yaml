@@ -1,6 +1,7 @@
 swagger: "2.0"
+basePath: /v1
 info:
-  title: "dp-nlp-search-scrubber"
+  title: "dp-search-scrubber-api"
   description: "Allows users to identify Output Areas (OA) and Industry Classification (SIC) associated with a given location."
   version: 1.0.0
   license:
@@ -8,7 +9,7 @@ info:
 schemes:
   - http
 paths:
-  /v1/search:
+  /search:
     get:
       summary: Identifies OA and Industry Classification associated with a given OAC or SIC 
       description: Returns information associated with those codes, like Name, Region Name/Code, OAC for areas and Name and SIC for industries.
