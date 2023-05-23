@@ -62,3 +62,10 @@ func DB() *db.ScrubberDB {
 		IndustriesPFM: industryMap,
 	}
 }
+
+func EmptyDB() db.ScrubberDB {
+	return db.ScrubberDB{
+		AreasPFM:      prefixmap.New(),
+		IndustriesPFM: prefixmap.New(),
+	}
+}

@@ -88,7 +88,6 @@ func (svc *Service) Close(ctx context.Context) error {
 			log.Error(ctx, "failed to shutdown http server", err)
 			hasShutdownError = true
 		}
-
 	}()
 
 	// wait for shutdown success (via cancel) or failure (timeout)
