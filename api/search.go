@@ -20,8 +20,6 @@ func FindAllMatchingAreasAndIndustriesHandler(scrubberDB *db.ScrubberDB) http.Ha
 
 		ctx := r.Context()
 
-		log.Info(ctx, "api contains /scrubber/search endpoint which return a list of possible locations and industries based on OAC and SIC")
-
 		start := time.Now()
 
 		if len(scrubberDB.AreasPFM.Children) == 0 && len(scrubberDB.IndustriesPFM.Children) == 0 {
