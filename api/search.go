@@ -26,13 +26,50 @@ func FindAllMatchingAreasAndIndustriesHandler(scrubberDB *db.ScrubberDB) http.Ha
 
 		if len(scrubberDB.AreasPFM.Children) == 0 && len(scrubberDB.IndustriesPFM.Children) == 0 {
 			log.Error(ctx, "There is no data to display due to a database issue", fmt.Errorf("missing raw data"))
+
 			w.Header().Set("X-Error-Message", "There was an issue with the database")
+
 			w.WriteHeader(http.StatusNoContent)
+
+			errObj := ErrorResp{
+				Errors: []Errors{
+					{
+						ErrorCode: "", // to be added once Nathan finished the error-codes lib
+						Message:   "An unexpected error occurred while processing your request",
+					},
+				},
+				TraceID: getRequestID(ctx),
+			}
+
+			if err := json.NewEncoder(w).Encode(errObj); err != nil {
+				log.Error(ctx, "Unable to encode the error response data", err)
+			}
 
 			return
 		}
 
-		scrubberParams := models.GetScrubberParams(r.URL.Query())
+		scrubberParams, err := models.GetScrubberParams(r.URL.Query())
+		if err != nil {
+			log.Error(ctx, "Error getting scrubber query", err)
+
+			w.WriteHeader(http.StatusBadRequest)
+
+			errObj := ErrorResp{
+				Errors: []Errors{
+					{
+						ErrorCode: "", // to be added once Nathan finished the error-codes lib
+						Message:   "An unexpected error occurred while processing your request",
+					},
+				},
+				TraceID: getRequestID(ctx),
+			}
+
+			if err := json.NewEncoder(w).Encode(errObj); err != nil {
+				log.Error(ctx, "Unable to encode the error response data", err)
+			}
+
+			return
+		}
 
 		matchingAreas := getAllMatchingAreas(scrubberParams.OAC, scrubberDB)
 		matchingIndustries := getAllMatchingIndustries(scrubberParams.SIC, scrubberDB)
