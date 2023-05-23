@@ -55,7 +55,7 @@ func (cli *Client) Checker(ctx context.Context, check *health.CheckState) error 
 
 // GetSearch gets a list of search results based on the search request
 func (cli *Client) GetSearch(ctx context.Context, options Options) (*models.ScrubberResp, errors.Error) {
-	path := fmt.Sprintf("%s/v1/search", cli.URL())
+	path := fmt.Sprintf("%s/v1/scrubber/search", cli.URL())
 	if options.Query != nil {
 		path = path + "?" + options.Query.Encode()
 	}
