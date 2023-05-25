@@ -1,5 +1,5 @@
 {
-    "query": "01230E00000001E00000014E00000017E00000016",
+    "query": "01230 E00000001 E00000014 E00000017 E00000016",
     "results": {
         "areas": [
             {
@@ -9,7 +9,7 @@
                     "E00000016": "E00000016",
                     "E00000017": "E00000017"
                 },
-                "name": "CityofLondon",
+                "name": "City of London",
                 "region": "London",
                 "region_code": "E12000007"
             }
@@ -17,7 +17,7 @@
         "industries": [
             {
                 "code": "01230",
-                "name": "Growingofcitrusfruits"
+                "name": "Growing of citrus fruits"
             }
         ]
     }

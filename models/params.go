@@ -54,6 +54,7 @@ func (sp *ScrubberParams) getAllAcceptableCodesFromQuery() {
 	// regex for how a output area code looks like e.g. E12345678
 	oacCodeRe := regexp.MustCompile(`^[a-zA-Z]\d{8}$`)
 
+	// cache is here to make sure we don't duplicate entries
 	cache := make(map[string]string)
 	for _, v := range querySl {
 		if _, ok := cache[v]; !ok && sicCodeRe.MatchString(v) {

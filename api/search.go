@@ -141,7 +141,6 @@ func getAllMatchingIndustries(querySl []string, scrubberDB db.ScrubberDB) []mode
 	validation := make(map[string]string)
 
 	for _, q := range querySl {
-
 		matchingRecords := scrubberDB.IndustriesPFM.Get(strings.ToUpper(q))
 
 		for _, rData := range matchingRecords {

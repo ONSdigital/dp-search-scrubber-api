@@ -66,11 +66,12 @@ func TestGetAllMatchingIndustries(t *testing.T) {
 		// algorithm of PrefixMap is depth first search
 		// so It will get the data in reverse
 		// keep that in mind when updating tests
-		{
-			name:          "matching partial query",
-			query:         []string{"ind"},
-			expectedCodes: []string{"IND3", "IND2", "IND1"},
-		},
+		// matching by partial query currently suspendet
+		// {
+		// 	name:          "matching partial query",
+		// 	query:         []string{"ind"},
+		// 	expectedCodes: []string{"IND3", "IND2", "IND1"},
+		// },
 	}
 
 	for _, tt := range tests {
@@ -129,39 +130,40 @@ func TestGetAllMatchingAreas(t *testing.T) {
 				},
 			},
 		},
-		{
-			// PrefixMap algorithm is depth first search
-			// so when running partial queries it will get
-			// the last area first, keep that in mind when updating tests
-			name:  "matching partial queries",
-			query: []string{"OAC"},
-			expectedNames: []*models.AreaResp{
-				{
-					Name:       "LAN3",
-					Region:     "RN3",
-					RegionCode: "RC3",
-					Codes: map[string]string{
-						"OAC3": "OAC3",
-					},
-				},
-				{
-					Name:       "LAN2",
-					Region:     "RN2",
-					RegionCode: "RC2",
-					Codes: map[string]string{
-						"OAC2": "OAC2",
-					},
-				},
-				{
-					Name:       "LAN1",
-					Region:     "RN1",
-					RegionCode: "RC1",
-					Codes: map[string]string{
-						"OAC1": "OAC1",
-					},
-				},
-			},
-		},
+		// {
+		// 	// PrefixMap algorithm is depth first search
+		// 	// so when running partial queries it will get
+		// 	// the last area first, keep that in mind when updating tests
+		//  Partial matching feature suspendet
+		// 	name:  "matching partial queries",
+		// 	query: []string{"OAC"},
+		// 	expectedNames: []*models.AreaResp{
+		// 		{
+		// 			Name:       "LAN3",
+		// 			Region:     "RN3",
+		// 			RegionCode: "RC3",
+		// 			Codes: map[string]string{
+		// 				"OAC3": "OAC3",
+		// 			},
+		// 		},
+		// 		{
+		// 			Name:       "LAN2",
+		// 			Region:     "RN2",
+		// 			RegionCode: "RC2",
+		// 			Codes: map[string]string{
+		// 				"OAC2": "OAC2",
+		// 			},
+		// 		},
+		// 		{
+		// 			Name:       "LAN1",
+		// 			Region:     "RN1",
+		// 			RegionCode: "RC1",
+		// 			Codes: map[string]string{
+		// 				"OAC1": "OAC1",
+		// 			},
+		// 		},
+		// 	},
+		// },
 		{
 			name:          "no matching queries",
 			query:         []string{"foo", "bar"},
