@@ -27,7 +27,7 @@ var (
 		Time:  "10",
 		Query: "sth",
 		Results: models.Results{
-			Areas: []*models.AreaResp{
+			Areas: []models.AreaResp{
 				{
 					Name:       "name1",
 					Region:     "region1",
@@ -37,7 +37,7 @@ var (
 					},
 				},
 			},
-			Industries: []*models.IndustryResp{
+			Industries: []models.IndustryResp{
 				{
 					Code: "indcode1",
 					Name: "indname1",

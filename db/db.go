@@ -13,7 +13,7 @@ type ScrubberDB struct {
 	IndustriesPFM *prefixmap.PrefixMap
 }
 
-func LoadCsvData(ctx context.Context, cfg *config.Config) *ScrubberDB {
+func LoadCsvData(ctx context.Context, cfg *config.Config) ScrubberDB {
 	// gets area data
 	areaData, err := getArea(cfg)
 	if err != nil {
@@ -42,7 +42,7 @@ func LoadCsvData(ctx context.Context, cfg *config.Config) *ScrubberDB {
 		industryMap.Insert(industry.Code, industry)
 	}
 
-	return &ScrubberDB{
+	return ScrubberDB{
 		AreasPFM:      areasMap,
 		IndustriesPFM: industryMap,
 	}

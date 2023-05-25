@@ -30,7 +30,7 @@ func TestEmptyDB(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			matchingIndustries := getAllMatchingIndustries(tt.query, &mockDB)
+			matchingIndustries := getAllMatchingIndustries(tt.query, mockDB)
 			assert.Equal(t, len(tt.expectedCodes), len(matchingIndustries), "expected %d matching industries, got %d", len(tt.expectedCodes), len(matchingIndustries))
 			for i, industryResp := range matchingIndustries {
 				assert.Equal(t, tt.expectedCodes[i], industryResp.Code, "expected industry with code %s, got %s", tt.expectedCodes[i], industryResp.Code)

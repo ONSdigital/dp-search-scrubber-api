@@ -12,7 +12,7 @@ type Industry struct {
 	Name string `csv:"Description"`
 }
 
-func getIndustry(cfg *config.Config) ([]*Industry, error) {
+func getIndustry(cfg *config.Config) ([]Industry, error) {
 	file, err := os.Open(cfg.IndustryDataFile)
 	if err != nil {
 		return nil, err
@@ -20,7 +20,7 @@ func getIndustry(cfg *config.Config) ([]*Industry, error) {
 
 	defer file.Close()
 
-	ir := []*Industry{}
+	ir := []Industry{}
 
 	if err := gocsv.UnmarshalFile(file, &ir); err != nil {
 		return nil, err

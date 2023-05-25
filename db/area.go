@@ -15,7 +15,7 @@ type Area struct {
 	RegionName         string `csv:"Region/Country Name"`
 }
 
-func getArea(cfg *config.Config) ([]*Area, error) {
+func getArea(cfg *config.Config) ([]Area, error) {
 	file, err := os.Open(cfg.AreaDataFile)
 	if err != nil {
 		return nil, err
@@ -23,7 +23,7 @@ func getArea(cfg *config.Config) ([]*Area, error) {
 
 	defer file.Close()
 
-	ar := []*Area{}
+	ar := []Area{}
 
 	if err := gocsv.UnmarshalFile(file, &ar); err != nil {
 		return nil, err

@@ -7,8 +7,8 @@ type ScrubberResp struct {
 }
 
 type Results struct {
-	Areas      []*AreaResp     `json:"areas,omitempty"`
-	Industries []*IndustryResp `json:"industries,omitempty"`
+	Areas      []AreaResp     `json:"areas,omitempty"`
+	Industries []IndustryResp `json:"industries,omitempty"`
 }
 
 type AreaResp struct {

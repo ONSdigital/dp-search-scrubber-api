@@ -14,7 +14,7 @@ import (
 	"github.com/ONSdigital/log.go/v2/log"
 )
 
-func FindAllMatchingAreasAndIndustriesHandler(scrubberDB *db.ScrubberDB) http.HandlerFunc {
+func FindAllMatchingAreasAndIndustriesHandler(scrubberDB db.ScrubberDB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 
@@ -103,22 +103,21 @@ func FindAllMatchingAreasAndIndustriesHandler(scrubberDB *db.ScrubberDB) http.Ha
 	}
 }
 
-func getAllMatchingAreas(querySl []string, scrubberDB *db.ScrubberDB) []*models.AreaResp {
-	var matchingAreas []*models.AreaResp
+func getAllMatchingAreas(querySl []string, scrubberDB db.ScrubberDB) []models.AreaResp {
+	var matchingAreas []models.AreaResp
 
-	areaRespMap := make(map[string]*models.AreaResp)
+	areaRespMap := make(map[string]models.AreaResp)
 
 	for _, q := range querySl {
 		matchingRecords := scrubberDB.AreasPFM.GetByPrefix(strings.ToUpper(q))
-
 		for _, rData := range matchingRecords {
-			area := rData.(*db.Area)
+			area := rData.(db.Area)
 			key := area.LAName + area.RegionName + area.RegionCode
 
 			if _, found := areaRespMap[key]; found {
 				areaRespMap[key].Codes[area.OutputAreaCode] = area.OutputAreaCode
 			} else {
-				areaResp := &models.AreaResp{
+				areaResp := models.AreaResp{
 					Name:       area.LAName,
 					Region:     area.RegionName,
 					RegionCode: area.RegionCode,
@@ -136,8 +135,8 @@ func getAllMatchingAreas(querySl []string, scrubberDB *db.ScrubberDB) []*models.
 	return matchingAreas
 }
 
-func getAllMatchingIndustries(querySl []string, scrubberDB *db.ScrubberDB) []*models.IndustryResp {
-	var matchingIndustries []*models.IndustryResp
+func getAllMatchingIndustries(querySl []string, scrubberDB db.ScrubberDB) []models.IndustryResp {
+	var matchingIndustries []models.IndustryResp
 
 	validation := make(map[string]string)
 
@@ -145,10 +144,10 @@ func getAllMatchingIndustries(querySl []string, scrubberDB *db.ScrubberDB) []*mo
 		matchingRecords := scrubberDB.IndustriesPFM.GetByPrefix(strings.ToUpper(q))
 
 		for _, rData := range matchingRecords {
-			industry := rData.(*db.Industry)
+			industry := rData.(db.Industry)
 
 			if _, valid := validation[industry.Code]; !valid {
-				industryResp := &models.IndustryResp{
+				industryResp := models.IndustryResp{
 					Code: industry.Code,
 					Name: industry.Name,
 				}

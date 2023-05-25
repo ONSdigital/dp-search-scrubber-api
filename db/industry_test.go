@@ -38,7 +38,7 @@ func TestGetIndustry(t *testing.T) {
 	}
 }
 
-func mockIndustryData(t *testing.T) []*Industry {
+func mockIndustryData(t *testing.T) []Industry {
 	testFile, err := os.Create("test.csv")
 	if err != nil {
 		t.Fatalf("Failed to create test file: %v", err)
@@ -59,6 +59,7 @@ func mockIndustryData(t *testing.T) []*Industry {
 	if err != nil {
 		t.Fatalf("Failed to create test file: %v", err)
 	}
+
 	return ir
 }
 func skipUnitTests(t *testing.T) {
