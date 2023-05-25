@@ -27,7 +27,7 @@ func FindAllMatchingAreasAndIndustriesHandler(scrubberDB db.ScrubberDB) http.Han
 
 			w.Header().Set("X-Error-Message", "There was an issue with the database")
 
-			w.WriteHeader(http.StatusNoContent)
+			w.WriteHeader(http.StatusInternalServerError)
 
 			errObj := ErrorResp{
 				Errors: []Errors{
@@ -109,7 +109,7 @@ func getAllMatchingAreas(querySl []string, scrubberDB db.ScrubberDB) []models.Ar
 	areaRespMap := make(map[string]models.AreaResp)
 
 	for _, q := range querySl {
-		matchingRecords := scrubberDB.AreasPFM.GetByPrefix(strings.ToUpper(q))
+		matchingRecords := scrubberDB.AreasPFM.Get(strings.ToUpper(q))
 		for _, rData := range matchingRecords {
 			area := rData.(db.Area)
 			key := area.LAName + area.RegionName + area.RegionCode
@@ -141,7 +141,8 @@ func getAllMatchingIndustries(querySl []string, scrubberDB db.ScrubberDB) []mode
 	validation := make(map[string]string)
 
 	for _, q := range querySl {
-		matchingRecords := scrubberDB.IndustriesPFM.GetByPrefix(strings.ToUpper(q))
+
+		matchingRecords := scrubberDB.IndustriesPFM.Get(strings.ToUpper(q))
 
 		for _, rData := range matchingRecords {
 			industry := rData.(db.Industry)
