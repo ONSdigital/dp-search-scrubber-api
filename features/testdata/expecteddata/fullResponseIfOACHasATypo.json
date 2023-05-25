@@ -1,34 +1,18 @@
 {
-    "query": "012300124001250E00000015",
+    "query": "01230 01240 01250 E00000015",
     "results": {
-        "areas": [
-            {
-                "codes": {
-                    "E00000010": "E00000010",
-                    "E00000012": "E00000012",
-                    "E00000013": "E00000013",
-                    "E00000014": "E00000014",
-                    "E00000016": "E00000016",
-                    "E00000017": "E00000017",
-                    "E00000018": "E00000018"
-                },
-                "name": "CityofLondon",
-                "region": "London",
-                "region_code": "E12000007"
-            }
-        ],
         "industries": [
             {
                 "code": "01230",
-                "name": "Growingofcitrusfruits"
+                "name": "Growing of citrus fruits"
             },
             {
                 "code": "01240",
-                "name": "Growingofpomefruitsandstonefruits"
+                "name": "Growing of pome fruits and stone fruits"
             },
             {
                 "code": "01250",
-                "name": "Growingofothertreeandbushfruitsandnuts"
+                "name": "Growing of other tree and bush fruits and nuts"
             }
         ]
     }

@@ -17,7 +17,7 @@ Feature: Helloworld
         And the response body is the same as the json in "./features/testdata/expecteddata/fullResponse.json"
 
     Scenario: When Searching for With both OAC and SIC that have special characters between then I get resp as in json
-        When I GET "/v1/scrubber/search?q=01230,E00000001,"
+        When I GET "/v1/scrubber/search?q=01230,E00000001"
         And the response body is the same as the json in "./features/testdata/expecteddata/fullResponse.json"
 
     Scenario: When Searching for With both OAC and SIC that have special characters and multiple OAC then I get resp as in json
@@ -25,7 +25,7 @@ Feature: Helloworld
         And the response body is the same as the json in "./features/testdata/expecteddata/fullResponseMultipleOAC.json"
 
     Scenario: When Searching for With both OAC and SIC that have special characters and multiple SIC then I get resp as in json
-        When I GET "/v1/scrubber/search?q=01230,01240,01250,E00000001,"
+        When I GET "/v1/scrubber/search?q=01230,01240,01250,E00000001"
         And the response body is the same as the json in "./features/testdata/expecteddata/fullResponseMultipleSIC.json"
         
     Scenario: When Searching for With both OAC and SIC that have special characters and multiple SIC/OAC then I get resp as in json
