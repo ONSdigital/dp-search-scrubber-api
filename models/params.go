@@ -40,7 +40,7 @@ func GetScrubberParams(query url.Values) (*ScrubberParams, error) {
 }
 
 func (sp *ScrubberParams) rmSpecialCharsFromQuery() {
-	re := regexp.MustCompile("[^a-zA-Z0-9_]+")
+	re := regexp.MustCompile("[^a-zA-Z0-9]+")
 
 	sp.Query = re.ReplaceAllString(sp.Query, " ")
 }
