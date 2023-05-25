@@ -28,7 +28,7 @@ func main() {
 
 ### Get Search Results
 
-Use the GetSearch method to send a request to find search results based on query parameters. Authorisation header needed if hitting private instance of application.
+Use the GetSearch method to send a request to find search results based on query parameters.
 
 ```go
 ...
