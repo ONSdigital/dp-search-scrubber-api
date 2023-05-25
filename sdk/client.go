@@ -16,7 +16,7 @@ import (
 )
 
 const (
-	service = "onyx-dp-search-scrubber-api"
+	service = "dp-search-scrubber-api"
 )
 
 type Client struct {

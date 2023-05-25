@@ -1,4 +1,4 @@
-onyx-dp-search-scrubber-api SDK
+dp-search-scrubber-api SDK
 ======================
 
 ## Overview
@@ -16,7 +16,7 @@ package main
 
 import (
 	"context"
-	"github.com/ONSdigital/onyx-dp-search-scrubber-api/sdk"
+	"github.com/ONSdigital/dp-search-scrubber-api/sdk"
 )
 
 func main() {
