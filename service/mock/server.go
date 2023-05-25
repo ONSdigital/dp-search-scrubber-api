@@ -7,7 +7,7 @@ import (
 	"context"
 	"sync"
 
-	"github.com/ONSdigital/dp-nlp-search-scrubber/service"
+	"github.com/ONSdigital/dp-search-scrubber-api/service"
 )
 
 // Ensure, that HTTPServerMock does implement service.HTTPServer.

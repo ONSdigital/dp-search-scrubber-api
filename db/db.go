@@ -3,7 +3,7 @@ package db
 import (
 	"context"
 
-	"github.com/ONSdigital/dp-nlp-search-scrubber/config"
+	"github.com/ONSdigital/dp-search-scrubber-api/config"
 	"github.com/ONSdigital/log.go/v2/log"
 	"github.com/alediaferia/prefixmap"
 )

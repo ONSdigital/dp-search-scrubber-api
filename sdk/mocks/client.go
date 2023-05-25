@@ -7,9 +7,9 @@ import (
 	"context"
 	healthcheck "github.com/ONSdigital/dp-api-clients-go/v2/health"
 	health "github.com/ONSdigital/dp-healthcheck/healthcheck"
-	"github.com/ONSdigital/dp-nlp-search-scrubber/models"
-	"github.com/ONSdigital/dp-nlp-search-scrubber/sdk"
-	"github.com/ONSdigital/dp-nlp-search-scrubber/sdk/errors"
+	"github.com/ONSdigital/dp-search-scrubber-api/models"
+	"github.com/ONSdigital/dp-search-scrubber-api/sdk"
+	"github.com/ONSdigital/dp-search-scrubber-api/sdk/errors"
 	"sync"
 )
 

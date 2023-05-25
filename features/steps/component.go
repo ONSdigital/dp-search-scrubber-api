@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/ONSdigital/dp-nlp-search-scrubber/config"
-	"github.com/ONSdigital/dp-nlp-search-scrubber/service"
-	"github.com/ONSdigital/dp-nlp-search-scrubber/service/mock"
+	"github.com/ONSdigital/dp-search-scrubber-api/config"
+	"github.com/ONSdigital/dp-search-scrubber-api/service"
+	"github.com/ONSdigital/dp-search-scrubber-api/service/mock"
 
 	componenttest "github.com/ONSdigital/dp-component-test"
 	"github.com/ONSdigital/dp-healthcheck/healthcheck"

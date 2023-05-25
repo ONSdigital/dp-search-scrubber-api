@@ -9,8 +9,8 @@ import (
 	"time"
 
 	"github.com/ONSdigital/dp-net/request"
-	"github.com/ONSdigital/dp-nlp-search-scrubber/db"
-	"github.com/ONSdigital/dp-nlp-search-scrubber/models"
+	"github.com/ONSdigital/dp-search-scrubber-api/db"
+	"github.com/ONSdigital/dp-search-scrubber-api/models"
 	"github.com/ONSdigital/log.go/v2/log"
 )
 

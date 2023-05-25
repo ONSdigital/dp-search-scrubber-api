@@ -4,8 +4,8 @@ import (
 	"context"
 	"testing"
 
-	"github.com/ONSdigital/dp-nlp-search-scrubber/config"
-	"github.com/ONSdigital/dp-nlp-search-scrubber/db/mock"
+	"github.com/ONSdigital/dp-search-scrubber-api/config"
+	"github.com/ONSdigital/dp-search-scrubber-api/db/mock"
 	"github.com/stretchr/testify/assert"
 )
 

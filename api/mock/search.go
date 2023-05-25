@@ -1,7 +1,7 @@
 package mock
 
 import (
-	"github.com/ONSdigital/dp-nlp-search-scrubber/db"
+	"github.com/ONSdigital/dp-search-scrubber-api/db"
 	"github.com/alediaferia/prefixmap"
 )
 

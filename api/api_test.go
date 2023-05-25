@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/ONSdigital/dp-nlp-search-scrubber/config"
+	"github.com/ONSdigital/dp-search-scrubber-api/config"
 	"github.com/gorilla/mux"
 	"github.com/stretchr/testify/assert"
 )

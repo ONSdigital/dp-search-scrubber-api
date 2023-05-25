@@ -6,7 +6,7 @@ import (
 	"github.com/kelseyhightower/envconfig"
 )
 
-// Config represents service configuration for dp-nlp-search-scrubber
+// Config represents service configuration for dp-search-scrubber-api
 type Config struct {
 	AreaDataFile               string        `envconfig:"AREA_DATA_FILE"`
 	BindAddr                   string        `envconfig:"BIND_ADDR"`

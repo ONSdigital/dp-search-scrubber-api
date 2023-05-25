@@ -9,7 +9,7 @@ image_resource:
     tag: 1.19.5
 
 inputs:
-  - name: dp-nlp-search-scrubber
+  - name: dp-search-scrubber-api
 
 outputs:
   - name: build
@@ -18,4 +18,4 @@ caches:
   - path: go/
 
 run:
-  path: dp-nlp-search-scrubber/ci/scripts/build.sh
+  path: dp-search-scrubber-api/ci/scripts/build.sh

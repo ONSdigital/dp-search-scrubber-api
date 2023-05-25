@@ -3,8 +3,8 @@ package service
 import (
 	"context"
 
-	"github.com/ONSdigital/dp-nlp-search-scrubber/api"
-	"github.com/ONSdigital/dp-nlp-search-scrubber/config"
+	"github.com/ONSdigital/dp-search-scrubber-api/api"
+	"github.com/ONSdigital/dp-search-scrubber-api/config"
 	"github.com/ONSdigital/log.go/v2/log"
 	"github.com/gorilla/mux"
 	"github.com/pkg/errors"

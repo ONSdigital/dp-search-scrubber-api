@@ -1,4 +1,4 @@
-# dp-nlp-search-scrubber
+# dp-search-scrubber-api
 
 ## Description
 

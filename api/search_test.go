@@ -3,8 +3,8 @@ package api
 import (
 	"testing"
 
-	"github.com/ONSdigital/dp-nlp-search-scrubber/api/mock"
-	"github.com/ONSdigital/dp-nlp-search-scrubber/models"
+	"github.com/ONSdigital/dp-search-scrubber-api/api/mock"
+	"github.com/ONSdigital/dp-search-scrubber-api/models"
 	"github.com/stretchr/testify/assert"
 )
 

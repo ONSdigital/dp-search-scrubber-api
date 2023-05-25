@@ -3,8 +3,8 @@ package api
 import (
 	"context"
 
-	"github.com/ONSdigital/dp-nlp-search-scrubber/config"
-	"github.com/ONSdigital/dp-nlp-search-scrubber/db"
+	"github.com/ONSdigital/dp-search-scrubber-api/config"
+	"github.com/ONSdigital/dp-search-scrubber-api/db"
 	"github.com/gorilla/mux"
 )
 
