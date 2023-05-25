@@ -9,30 +9,65 @@ import (
 	"time"
 
 	"github.com/ONSdigital/dp-net/request"
-	"github.com/ONSdigital/dp-nlp-search-scrubber/db"
-	"github.com/ONSdigital/dp-nlp-search-scrubber/models"
+	"github.com/ONSdigital/dp-search-scrubber-api/db"
+	"github.com/ONSdigital/dp-search-scrubber-api/models"
 	"github.com/ONSdigital/log.go/v2/log"
 )
 
-func FindAllMatchingAreasAndIndustriesHandler(scrubberDB *db.ScrubberDB) http.HandlerFunc {
+func FindAllMatchingAreasAndIndustriesHandler(scrubberDB db.ScrubberDB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 
 		ctx := r.Context()
 
-		log.Info(ctx, "api contains /scrubber/search endpoint which return a list of possible locations and industries based on OAC and SIC")
-
 		start := time.Now()
 
 		if len(scrubberDB.AreasPFM.Children) == 0 && len(scrubberDB.IndustriesPFM.Children) == 0 {
 			log.Error(ctx, "There is no data to display due to a database issue", fmt.Errorf("missing raw data"))
+
 			w.Header().Set("X-Error-Message", "There was an issue with the database")
-			w.WriteHeader(http.StatusNoContent)
+
+			w.WriteHeader(http.StatusInternalServerError)
+
+			errObj := ErrorResp{
+				Errors: []Errors{
+					{
+						ErrorCode: "", // to be added once Nathan finished the error-codes lib
+						Message:   "An unexpected error occurred while processing your request",
+					},
+				},
+				TraceID: getRequestID(ctx),
+			}
+
+			if err := json.NewEncoder(w).Encode(errObj); err != nil {
+				log.Error(ctx, "Unable to encode the error response data", err)
+			}
 
 			return
 		}
 
-		scrubberParams := models.GetScrubberParams(r.URL.Query())
+		scrubberParams, err := models.GetScrubberParams(r.URL.Query())
+		if err != nil {
+			log.Error(ctx, "Error getting scrubber query", err)
+
+			w.WriteHeader(http.StatusBadRequest)
+
+			errObj := ErrorResp{
+				Errors: []Errors{
+					{
+						ErrorCode: "", // to be added once Nathan finished the error-codes lib
+						Message:   "An unexpected error occurred while processing your request",
+					},
+				},
+				TraceID: getRequestID(ctx),
+			}
+
+			if err := json.NewEncoder(w).Encode(errObj); err != nil {
+				log.Error(ctx, "Unable to encode the error response data", err)
+			}
+
+			return
+		}
 
 		matchingAreas := getAllMatchingAreas(scrubberParams.OAC, scrubberDB)
 		matchingIndustries := getAllMatchingIndustries(scrubberParams.SIC, scrubberDB)
@@ -68,22 +103,21 @@ func FindAllMatchingAreasAndIndustriesHandler(scrubberDB *db.ScrubberDB) http.Ha
 	}
 }
 
-func getAllMatchingAreas(querySl []string, scrubberDB *db.ScrubberDB) []*models.AreaResp {
-	var matchingAreas []*models.AreaResp
+func getAllMatchingAreas(querySl []string, scrubberDB db.ScrubberDB) []models.AreaResp {
+	var matchingAreas []models.AreaResp
 
-	areaRespMap := make(map[string]*models.AreaResp)
+	areaRespMap := make(map[string]models.AreaResp)
 
 	for _, q := range querySl {
-		matchingRecords := scrubberDB.AreasPFM.GetByPrefix(strings.ToUpper(q))
-
+		matchingRecords := scrubberDB.AreasPFM.Get(strings.ToUpper(q))
 		for _, rData := range matchingRecords {
-			area := rData.(*db.Area)
+			area := rData.(db.Area)
 			key := area.LAName + area.RegionName + area.RegionCode
 
 			if _, found := areaRespMap[key]; found {
 				areaRespMap[key].Codes[area.OutputAreaCode] = area.OutputAreaCode
 			} else {
-				areaResp := &models.AreaResp{
+				areaResp := models.AreaResp{
 					Name:       area.LAName,
 					Region:     area.RegionName,
 					RegionCode: area.RegionCode,
@@ -101,19 +135,20 @@ func getAllMatchingAreas(querySl []string, scrubberDB *db.ScrubberDB) []*models.
 	return matchingAreas
 }
 
-func getAllMatchingIndustries(querySl []string, scrubberDB *db.ScrubberDB) []*models.IndustryResp {
-	var matchingIndustries []*models.IndustryResp
+func getAllMatchingIndustries(querySl []string, scrubberDB db.ScrubberDB) []models.IndustryResp {
+	var matchingIndustries []models.IndustryResp
 
 	validation := make(map[string]string)
 
 	for _, q := range querySl {
-		matchingRecords := scrubberDB.IndustriesPFM.GetByPrefix(strings.ToUpper(q))
+
+		matchingRecords := scrubberDB.IndustriesPFM.Get(strings.ToUpper(q))
 
 		for _, rData := range matchingRecords {
-			industry := rData.(*db.Industry)
+			industry := rData.(db.Industry)
 
 			if _, valid := validation[industry.Code]; !valid {
-				industryResp := &models.IndustryResp{
+				industryResp := models.IndustryResp{
 					Code: industry.Code,
 					Name: industry.Name,
 				}

@@ -1,2 +1,20 @@
+# Mac
+.DS_Store
+
+# VSCode
+.vscode
+
+# Intellij
+
+.idea/
+*.iml
+*.iws
+# Exclude coverage file
+
+coverage.txt
+
+vendor
+.go/
+
 .env
 /build

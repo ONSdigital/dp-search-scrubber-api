@@ -9,7 +9,7 @@ import (
 	"sync"
 
 	"github.com/ONSdigital/dp-healthcheck/healthcheck"
-	"github.com/ONSdigital/dp-nlp-search-scrubber/service"
+	"github.com/ONSdigital/dp-search-scrubber-api/service"
 )
 
 // Ensure, that HealthCheckerMock does implement service.HealthChecker.

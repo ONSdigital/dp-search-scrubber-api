@@ -6,18 +6,18 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/ONSdigital/dp-nlp-search-scrubber/config"
-	"github.com/ONSdigital/dp-nlp-search-scrubber/service"
+	"github.com/ONSdigital/dp-search-scrubber-api/config"
+	"github.com/ONSdigital/dp-search-scrubber-api/service"
 	"github.com/ONSdigital/log.go/v2/log"
 	"github.com/pkg/errors"
 )
 
-const serviceName = "dp-nlp-search-scrubber"
+const serviceName = "dp-search-scrubber-api"
 
 var (
 	BuildTime string
 	GitCommit string
-	Version   = "v0.1.0"
+	Version   string
 )
 
 func main() {
@@ -38,7 +38,7 @@ func run(ctx context.Context) error {
 	svcErrors := make(chan error, 1)
 	svcList := service.NewServiceList(&service.Init{})
 
-	log.Info(ctx, "dp-nlp-search-scrubber version", log.Data{"version": Version})
+	log.Info(ctx, "dp-search-scrubber-api version", log.Data{"version": Version})
 
 	// Read config
 	cfg, err := config.Get()

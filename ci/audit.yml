@@ -8,8 +8,8 @@ image_resource:
     tag: latest
 
 inputs:
-  - name: dp-nlp-search-scrubber
-    path: dp-nlp-search-scrubber
+  - name: dp-search-scrubber-api
+    path: dp-search-scrubber-api
 
 run:
-  path: dp-nlp-search-scrubber/ci/scripts/audit.sh
+  path: dp-search-scrubber-api/ci/scripts/audit.sh

@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/ONSdigital/dp-healthcheck/healthcheck"
-	"github.com/ONSdigital/dp-nlp-search-scrubber/config"
+	"github.com/ONSdigital/dp-search-scrubber-api/config"
 )
 
 //go:generate moq -out mock/initialiser.go -pkg mock . Initialiser

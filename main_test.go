@@ -7,7 +7,7 @@ import (
 	"testing"
 
 	componenttest "github.com/ONSdigital/dp-component-test"
-	"github.com/ONSdigital/dp-nlp-search-scrubber/features/steps"
+	"github.com/ONSdigital/dp-search-scrubber-api/features/steps"
 	"github.com/cucumber/godog"
 	"github.com/cucumber/godog/colors"
 )

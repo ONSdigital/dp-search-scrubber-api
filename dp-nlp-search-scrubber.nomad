@@ -1,4 +1,4 @@
-job "dp-nlp-search-scrubber" {
+job "dp-search-scrubber-api" {
   datacenters = ["eu-west-2"]
   region      = "eu"
   type        = "service"
@@ -26,24 +26,24 @@ job "dp-nlp-search-scrubber" {
       mode     = "delay"
     }
 
-    task "dp-nlp-search-scrubber-web" {
+    task "dp-search-scrubber-api-web" {
       driver = "docker"
 
       artifact {
-        source = "s3::https://s3-eu-west-2.amazonaws.com/{{DEPLOYMENT_BUCKET}}/dp-nlp-search-scrubber/{{PROFILE}}/{{RELEASE}}.tar.gz"
+        source = "s3::https://s3-eu-west-2.amazonaws.com/{{DEPLOYMENT_BUCKET}}/dp-search-scrubber-api/{{PROFILE}}/{{RELEASE}}.tar.gz"
       }
 
       config {
         command = "${NOMAD_TASK_DIR}/start-task"
 
-        args = ["./dp-nlp-search-scrubber"]
+        args = ["./dp-search-scrubber-api"]
 
         image = "{{ECR_URL}}:concourse-{{REVISION}}"
 
       }
 
       service {
-        name = "dp-nlp-search-scrubber"
+        name = "dp-search-scrubber-api"
         port = "http"
         tags = ["web"]
 
@@ -70,7 +70,7 @@ job "dp-nlp-search-scrubber" {
       }
 
       vault {
-        policies = ["dp-nlp-search-scrubber-web"]
+        policies = ["dp-search-scrubber-api-web"]
       }
     }
   }
@@ -90,23 +90,23 @@ job "dp-nlp-search-scrubber" {
       mode     = "delay"
     }
 
-    task "dp-nlp-search-scrubber-publishing" {
+    task "dp-search-scrubber-api-publishing" {
       driver = "docker"
 
       artifact {
-        source = "s3::https://s3-eu-west-2.amazonaws.com/{{DEPLOYMENT_BUCKET}}/dp-nlp-search-scrubber/{{PROFILE}}/{{RELEASE}}.tar.gz"
+        source = "s3::https://s3-eu-west-2.amazonaws.com/{{DEPLOYMENT_BUCKET}}/dp-search-scrubber-api/{{PROFILE}}/{{RELEASE}}.tar.gz"
       }
 
       config {
         command = "${NOMAD_TASK_DIR}/start-task"
 
-        args = ["./dp-nlp-search-scrubber"]
+        args = ["./dp-search-scrubber-api"]
 
         image = "{{ECR_URL}}:concourse-{{REVISION}}"
       }
 
       service {
-        name = "dp-nlp-search-scrubber"
+        name = "dp-search-scrubber-api"
         port = "http"
         tags = ["publishing"]
 
@@ -133,7 +133,7 @@ job "dp-nlp-search-scrubber" {
       }
 
       vault {
-        policies = ["dp-nlp-search-scrubber-publishing"]
+        policies = ["dp-search-scrubber-api-publishing"]
       }
     }
   }

@@ -14,7 +14,7 @@ import (
 	healthcheck "github.com/ONSdigital/dp-api-clients-go/v2/health"
 	health "github.com/ONSdigital/dp-healthcheck/healthcheck"
 	dphttp "github.com/ONSdigital/dp-net/v2/http"
-	"github.com/ONSdigital/dp-nlp-search-scrubber/models"
+	"github.com/ONSdigital/dp-search-scrubber-api/models"
 	. "github.com/smartystreets/goconvey/convey"
 )
 
@@ -27,7 +27,7 @@ var (
 		Time:  "10",
 		Query: "sth",
 		Results: models.Results{
-			Areas: []*models.AreaResp{
+			Areas: []models.AreaResp{
 				{
 					Name:       "name1",
 					Region:     "region1",
@@ -37,7 +37,7 @@ var (
 					},
 				},
 			},
-			Industries: []*models.IndustryResp{
+			Industries: []models.IndustryResp{
 				{
 					Code: "indcode1",
 					Name: "indname1",
@@ -145,7 +145,7 @@ func TestGetSearch(t *testing.T) {
 						doCalls := httpClient.DoCalls()
 						So(doCalls, ShouldHaveLength, 1)
 						So(doCalls[0].Req.Method, ShouldEqual, "GET")
-						So(doCalls[0].Req.URL.Path, ShouldEqual, "/scrubber/search")
+						So(doCalls[0].Req.URL.Path, ShouldEqual, "/v1/scrubber/search")
 						So(doCalls[0].Req.URL.Query().Get("q"), ShouldEqual, "census")
 						So(doCalls[0].Req.Header["Authorization"], ShouldBeEmpty)
 					})

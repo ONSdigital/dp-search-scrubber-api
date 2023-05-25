@@ -3,10 +3,41 @@ package api
 import (
 	"testing"
 
-	"github.com/ONSdigital/dp-nlp-search-scrubber/api/mock"
-	"github.com/ONSdigital/dp-nlp-search-scrubber/models"
+	"github.com/ONSdigital/dp-search-scrubber-api/api/mock"
+	"github.com/ONSdigital/dp-search-scrubber-api/models"
 	"github.com/stretchr/testify/assert"
 )
+
+func TestEmptyDB(t *testing.T) {
+	mockDB := mock.EmptyDB()
+
+	tests := []struct {
+		name          string
+		query         []string
+		expectedCodes []string
+	}{
+		{
+			name:          "query with empty db",
+			query:         []string{"ind1"},
+			expectedCodes: []string{},
+		},
+		{
+			name:          "empty query with empty db",
+			query:         []string{},
+			expectedCodes: []string{},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			matchingIndustries := getAllMatchingIndustries(tt.query, mockDB)
+			assert.Equal(t, len(tt.expectedCodes), len(matchingIndustries), "expected %d matching industries, got %d", len(tt.expectedCodes), len(matchingIndustries))
+			for i, industryResp := range matchingIndustries {
+				assert.Equal(t, tt.expectedCodes[i], industryResp.Code, "expected industry with code %s, got %s", tt.expectedCodes[i], industryResp.Code)
+			}
+		})
+	}
+}
 
 func TestGetAllMatchingIndustries(t *testing.T) {
 	// get a mock ScrubberDB with some industries
@@ -56,6 +87,7 @@ func TestGetAllMatchingIndustries(t *testing.T) {
 func TestGetAllMatchingAreas(t *testing.T) {
 	// get a mock ScrubberDB with some areas
 	mockDB := mock.DB()
+
 	tests := []struct {
 		name          string
 		query         []string

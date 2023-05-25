@@ -3,8 +3,8 @@ package service
 import (
 	"context"
 
-	"github.com/ONSdigital/dp-nlp-search-scrubber/api"
-	"github.com/ONSdigital/dp-nlp-search-scrubber/config"
+	"github.com/ONSdigital/dp-search-scrubber-api/api"
+	"github.com/ONSdigital/dp-search-scrubber-api/config"
 	"github.com/ONSdigital/log.go/v2/log"
 	"github.com/gorilla/mux"
 	"github.com/pkg/errors"
@@ -30,8 +30,6 @@ func Run(ctx context.Context, cfg *config.Config, serviceList *ExternalServiceLi
 
 	s := serviceList.GetHTTPServer(cfg.BindAddr, r)
 
-	// TODO: Add other(s) to serviceList here
-
 	// Setup the API
 	a := api.Setup(ctx, r, cfg)
 
@@ -40,10 +38,6 @@ func Run(ctx context.Context, cfg *config.Config, serviceList *ExternalServiceLi
 	if err != nil {
 		log.Fatal(ctx, "could not instantiate healthcheck", err)
 		return nil, err
-	}
-
-	if err := registerCheckers(ctx, hc); err != nil {
-		return nil, errors.Wrap(err, "unable to register checkers")
 	}
 
 	r.StrictSlash(true).Path("/health").HandlerFunc(hc.Handler)
@@ -88,8 +82,6 @@ func (svc *Service) Close(ctx context.Context) error {
 			log.Error(ctx, "failed to shutdown http server", err)
 			hasShutdownError = true
 		}
-
-		// TODO: Close other dependencies, in the expected order
 	}()
 
 	// wait for shutdown success (via cancel) or failure (timeout)
@@ -109,11 +101,5 @@ func (svc *Service) Close(ctx context.Context) error {
 	}
 
 	log.Info(ctx, "graceful shutdown was successful")
-	return nil
-}
-
-func registerCheckers(ctx context.Context, hc HealthChecker) (err error) {
-	// TODO: add other health checks here, as per dp-upload-service
-
 	return nil
 }

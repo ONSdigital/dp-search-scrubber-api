@@ -1,4 +1,4 @@
-onyx-dp-search-scrubber-api SDK
+dp-search-scrubber-api SDK
 ======================
 
 ## Overview
@@ -16,19 +16,19 @@ package main
 
 import (
 	"context"
-	"github.com/ONSdigital/onyx-dp-search-scrubber-api/sdk"
+	"github.com/ONSdigital/dp-search-scrubber-api/sdk"
 )
 
 func main() {
     ...
-	searchAPIClient := sdk.NewClient("http://localhost:3002")
+	searchAPIClient := sdk.NewClient("http://localhost:28700")
     ...
 }
 ```
 
 ### Get Search Results
 
-Use the GetSearch method to send a request to find search results based on query parameters. Authorisation header needed if hitting private instance of application.
+Use the GetSearch method to send a request to find search results based on query parameters.
 
 ```go
 ...

@@ -3,7 +3,7 @@ package db
 import (
 	"context"
 
-	"github.com/ONSdigital/dp-nlp-search-scrubber/config"
+	"github.com/ONSdigital/dp-search-scrubber-api/config"
 	"github.com/ONSdigital/log.go/v2/log"
 	"github.com/alediaferia/prefixmap"
 )
@@ -13,7 +13,7 @@ type ScrubberDB struct {
 	IndustriesPFM *prefixmap.PrefixMap
 }
 
-func LoadCsvData(ctx context.Context, cfg *config.Config) *ScrubberDB {
+func LoadCsvData(ctx context.Context, cfg *config.Config) ScrubberDB {
 	// gets area data
 	areaData, err := getArea(cfg)
 	if err != nil {
@@ -42,7 +42,7 @@ func LoadCsvData(ctx context.Context, cfg *config.Config) *ScrubberDB {
 		industryMap.Insert(industry.Code, industry)
 	}
 
-	return &ScrubberDB{
+	return ScrubberDB{
 		AreasPFM:      areasMap,
 		IndustriesPFM: industryMap,
 	}

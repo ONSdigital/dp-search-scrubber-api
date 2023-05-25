@@ -11,12 +11,12 @@ import (
 
 	healthcheck "github.com/ONSdigital/dp-api-clients-go/v2/health"
 	health "github.com/ONSdigital/dp-healthcheck/healthcheck"
-	"github.com/ONSdigital/dp-nlp-search-scrubber/models"
-	"github.com/ONSdigital/dp-nlp-search-scrubber/sdk/errors"
+	"github.com/ONSdigital/dp-search-scrubber-api/models"
+	"github.com/ONSdigital/dp-search-scrubber-api/sdk/errors"
 )
 
 const (
-	service = "onyx-dp-search-scrubber-api"
+	service = "dp-search-scrubber-api"
 )
 
 type Client struct {
@@ -55,7 +55,7 @@ func (cli *Client) Checker(ctx context.Context, check *health.CheckState) error 
 
 // GetSearch gets a list of search results based on the search request
 func (cli *Client) GetSearch(ctx context.Context, options Options) (*models.ScrubberResp, errors.Error) {
-	path := fmt.Sprintf("%s/scrubber/search", cli.URL())
+	path := fmt.Sprintf("%s/v1/scrubber/search", cli.URL())
 	if options.Query != nil {
 		path = path + "?" + options.Query.Encode()
 	}

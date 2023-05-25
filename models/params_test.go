@@ -1,53 +1,19 @@
 package models
 
 import (
+	"fmt"
 	"net/url"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
-// func TestGetScrubberParams(t *testing.T) {
-// 	// Test case 1: query has one "q" parameter
-// 	query1 := url.Values{}
-// 	query1.Set("q", "test")
-// 	expected1 := &ScrubberParams{
-// 		Query: "test",
-// 	}
-// 	assert.Equal(t, expected1, GetScrubberParams(query1))
-
-// 	// Test case 2: query has no "q" parameter
-// 	query2 := url.Values{}
-// 	expected2 := &ScrubberParams{
-// 		Query: "",
-// 	}
-// 	assert.Equal(t, expected2, GetScrubberParams(query2))
-
-// 	// Test case 3: query has multiple "q" parameters
-// 	query3 := url.Values{}
-// 	query3.Set("q", "test1")
-// 	query3.Add("q", "test2")
-// 	expected3 := &ScrubberParams{
-// 		Query: "test1",
-// 	}
-// 	assert.Equal(t, expected3, GetScrubberParams(query3))
-// }
-
-func TestGetScrubberParams(t *testing.T) {
+func TestGetScrubberParamsHappyCases(t *testing.T) {
 	tests := []struct {
 		name     string
 		query    url.Values
 		expected *ScrubberParams
 	}{
-		{
-			name:  "empty query",
-			query: url.Values{},
-			expected: &ScrubberParams{
-				Query: "",
-				SIC:   []string{},
-				OAC:   []string{},
-			},
-		},
 		{
 			name: "simple query",
 			query: url.Values{
@@ -107,8 +73,48 @@ func TestGetScrubberParams(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			params := GetScrubberParams(tt.query)
+			params, err := GetScrubberParams(tt.query)
+			assert.Empty(t, err)
 			assert.Equal(t, tt.expected, params)
+		})
+	}
+}
+
+func TestGetScrubberParamsReturnsError(t *testing.T) {
+	tests := []struct {
+		name     string
+		query    url.Values
+		expected error
+	}{
+		{
+			name: "wrong query name",
+			query: url.Values{
+				"query": []string{},
+			},
+			expected: fmt.Errorf("no query provided or wrong query name"),
+		},
+		{
+			name: "multiple queries q",
+			query: url.Values{
+				"q": []string{"dentists", "IN", "london"},
+			},
+			expected: fmt.Errorf("one query expected, found multiple queries with the same name "),
+		},
+		{
+			name: "query with SIC code",
+			query: url.Values{
+				"q":     []string{"12345 dentists"},
+				"quer":  []string{"12345 dentists"},
+				"query": []string{"12345 dentists"},
+			},
+			expected: fmt.Errorf("one query expected, found multiple queries "),
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			params, err := GetScrubberParams(tt.query)
+			assert.Empty(t, params)
+			assert.Equal(t, tt.expected, err)
 		})
 	}
 }

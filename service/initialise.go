@@ -3,7 +3,7 @@ package service
 import (
 	"net/http"
 
-	"github.com/ONSdigital/dp-nlp-search-scrubber/config"
+	"github.com/ONSdigital/dp-search-scrubber-api/config"
 
 	"github.com/ONSdigital/dp-healthcheck/healthcheck"
 	dphttp "github.com/ONSdigital/dp-net/v2/http"

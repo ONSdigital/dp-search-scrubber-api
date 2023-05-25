@@ -3,8 +3,8 @@ package api
 import (
 	"context"
 
-	"github.com/ONSdigital/dp-nlp-search-scrubber/config"
-	"github.com/ONSdigital/dp-nlp-search-scrubber/db"
+	"github.com/ONSdigital/dp-search-scrubber-api/config"
+	"github.com/ONSdigital/dp-search-scrubber-api/db"
 	"github.com/gorilla/mux"
 )
 
@@ -21,7 +21,7 @@ func Setup(ctx context.Context, r *mux.Router, cfg *config.Config) *API {
 
 	dataBase := db.LoadCsvData(ctx, cfg)
 
-	r.HandleFunc("/scrubber/search", FindAllMatchingAreasAndIndustriesHandler(dataBase)).Methods("GET").Name("FindAllMatchingAreasAndIndustriesHandler")
+	r.HandleFunc("/v1/scrubber/search", FindAllMatchingAreasAndIndustriesHandler(dataBase)).Methods("GET").Name("FindAllMatchingAreasAndIndustriesHandler")
 
 	return api
 }

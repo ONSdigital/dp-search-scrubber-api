@@ -9,7 +9,7 @@ RESET  := $(shell tput -Txterm sgr0)
 export GOOS?=$(shell go env GOOS)
 export GOARCH?=$(shell go env GOARCH)
 
-MAIN=dp-nlp-search-scrubber
+MAIN=dp-search-scrubber-api
 BUILD=build
 BUILD_ARCH=$(BUILD)/$(GOOS)-$(GOARCH)
 BIN_DIR?=.
@@ -43,8 +43,8 @@ clean: ## Removes /bin folder
 	
 .PHONY: debug
 debug: ## Runs the api locally in debug mode
-	go build -tags 'debug' $(LDFLAGS) -o $(BINPATH)/dp-nlp-search-scrubber
-	HUMAN_LOG=1 DEBUG=1 $(BINPATH)/dp-nlp-search-scrubber
+	go build -tags 'debug' $(LDFLAGS) -o $(BINPATH)/dp-search-scrubber-api
+	HUMAN_LOG=1 DEBUG=1 $(BINPATH)/dp-search-scrubber-api
 
 .PHONY: delimiter-%
 delimiter-%:
@@ -60,8 +60,8 @@ lint: ## Automated checking of your source code for programmatic and stylistic e
 	golangci-lint run ./...
 
 .PHONY: run
-run: build ## First builds ./Dockerfile with image name: scrubber and then runs a container, with name: scrubber_container, on port 3002 
-	docker run -p 3002:3002 --name scrubber_container -ti --rm scrubber
+run: build ## First builds ./Dockerfile with image name: scrubber and then runs a container, with name: scrubber_container, on port :28700 
+	docker run -p :28700:28700 --name scrubber_container -ti --rm scrubber
 
 .PHONY: run-locally 
 run-locally: ## Run the app locally
@@ -77,7 +77,7 @@ test-all: test-convey test-component test ## Runs all tests with -race and -cove
 
 .PHONY: test-component
 test-component: ## Runs component tests
-	go test -cover -coverpkg=github.com/ONSdigital/dp-nlp-search-scrubber/... -component
+	go test -cover -coverpkg=github.com/ONSdigital/dp-search-scrubber-api/... -component
 
 .PHONY: test-convey
 test-convey: ## Runs Convey tests

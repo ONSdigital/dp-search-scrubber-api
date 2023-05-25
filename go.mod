@@ -1,4 +1,4 @@
-module github.com/ONSdigital/dp-nlp-search-scrubber
+module github.com/ONSdigital/dp-search-scrubber-api
 
 go 1.19
 

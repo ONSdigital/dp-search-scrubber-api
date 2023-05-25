@@ -10,9 +10,9 @@ import (
 
 	"github.com/ONSdigital/dp-healthcheck/healthcheck"
 
-	"github.com/ONSdigital/dp-nlp-search-scrubber/config"
-	"github.com/ONSdigital/dp-nlp-search-scrubber/service"
-	serviceMock "github.com/ONSdigital/dp-nlp-search-scrubber/service/mock"
+	"github.com/ONSdigital/dp-search-scrubber-api/config"
+	"github.com/ONSdigital/dp-search-scrubber-api/service"
+	serviceMock "github.com/ONSdigital/dp-search-scrubber-api/service/mock"
 
 	"github.com/pkg/errors"
 	. "github.com/smartystreets/goconvey/convey"
@@ -114,7 +114,7 @@ func TestRun(t *testing.T) {
 			Convey("The checkers are registered and the healthcheck and http server started", func() {
 				So(len(hcMock.AddCheckCalls()), ShouldEqual, 0)
 				So(len(initMock.DoGetHTTPServerCalls()), ShouldEqual, 1)
-				So(initMock.DoGetHTTPServerCalls()[0].BindAddr, ShouldEqual, ":3002")
+				So(initMock.DoGetHTTPServerCalls()[0].BindAddr, ShouldEqual, ":28700")
 				So(len(hcMock.StartCalls()), ShouldEqual, 1)
 				//!!! a call needed to stop the server, maybe ?
 				serverWg.Wait() // Wait for HTTP server go-routine to finish

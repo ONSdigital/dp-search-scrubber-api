@@ -1,12 +1,12 @@
 package mock
 
 import (
-	"github.com/ONSdigital/dp-nlp-search-scrubber/db"
+	"github.com/ONSdigital/dp-search-scrubber-api/db"
 	"github.com/alediaferia/prefixmap"
 )
 
-func Inds() []*db.Industry {
-	industries := []*db.Industry{
+func Inds() []db.Industry {
+	industries := []db.Industry{
 		{Code: "IND1", Name: "Industry 1"},
 		{Code: "IND2", Name: "Industry 2"},
 		{Code: "IND3", Name: "Industry 3"},
@@ -15,8 +15,8 @@ func Inds() []*db.Industry {
 	return industries
 }
 
-func Areas() []*db.Area {
-	areas := []*db.Area{
+func Areas() []db.Area {
+	areas := []db.Area{
 		{
 			RegionCode:         "RC1",
 			OutputAreaCode:     "OAC1",
@@ -43,7 +43,7 @@ func Areas() []*db.Area {
 	return areas
 }
 
-func DB() *db.ScrubberDB {
+func DB() db.ScrubberDB {
 	areaData := Areas()
 	industryData := Inds()
 
@@ -57,8 +57,15 @@ func DB() *db.ScrubberDB {
 		industryMap.Insert(industry.Code, industry)
 	}
 
-	return &db.ScrubberDB{
+	return db.ScrubberDB{
 		AreasPFM:      areasMap,
 		IndustriesPFM: industryMap,
+	}
+}
+
+func EmptyDB() db.ScrubberDB {
+	return db.ScrubberDB{
+		AreasPFM:      prefixmap.New(),
+		IndustriesPFM: prefixmap.New(),
 	}
 }

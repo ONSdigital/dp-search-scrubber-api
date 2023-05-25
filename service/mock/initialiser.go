@@ -7,8 +7,8 @@ import (
 	"net/http"
 	"sync"
 
-	"github.com/ONSdigital/dp-nlp-search-scrubber/config"
-	"github.com/ONSdigital/dp-nlp-search-scrubber/service"
+	"github.com/ONSdigital/dp-search-scrubber-api/config"
+	"github.com/ONSdigital/dp-search-scrubber-api/service"
 )
 
 // Ensure, that InitialiserMock does implement service.Initialiser.

@@ -4,8 +4,8 @@ import (
 	"context"
 	"testing"
 
-	"github.com/ONSdigital/dp-nlp-search-scrubber/config"
-	"github.com/ONSdigital/dp-nlp-search-scrubber/db/mock"
+	"github.com/ONSdigital/dp-search-scrubber-api/config"
+	"github.com/ONSdigital/dp-search-scrubber-api/db/mock"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -13,6 +13,7 @@ func TestLoadCsvData(t *testing.T) {
 	ctx := context.Background()
 
 	m := mock.CreateFiles(t)
+
 	defer m.CloseFiles()
 
 	cfg := config.Config{
@@ -53,7 +54,7 @@ func TestLoadCsvData(t *testing.T) {
 		matchingRecords := sr.AreasPFM.GetByPrefix(e.OutputAreaCode)
 		assert.NotEqual(t, len(matchingRecords), 0)
 		for _, mr := range matchingRecords {
-			area := mr.(*Area)
+			area := mr.(Area)
 			assert.Equal(t, area.RegionCode, e.RegionCode)
 			assert.Equal(t, area.LocalAuthorityCode, e.LocalAuthorityCode)
 			assert.Equal(t, area.LAName, e.LAName)
@@ -80,7 +81,7 @@ func TestLoadCsvData(t *testing.T) {
 		matchingRecords := sr.IndustriesPFM.GetByPrefix(e.code)
 		assert.NotEqual(t, len(matchingRecords), 0)
 		for _, mr := range matchingRecords {
-			industry := mr.(*Industry)
+			industry := mr.(Industry)
 			assert.Equal(t, industry.Code, e.code)
 			assert.Equal(t, industry.Name, e.name)
 		}

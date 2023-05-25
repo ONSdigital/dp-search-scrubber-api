@@ -1,4 +1,5 @@
-# dp-nlp-search-scrubber
+# dp-search-scrubber-api
+
 ## Description
 
 This API allows users to identify Output Areas (OA) and Industry Classification (SIC) associated with a given location. OAs are small geographical areas in the UK used for statistical purposes, while SIC codes are a system of numerical codes used to identify and categorize industries.
@@ -11,28 +12,28 @@ The API takes a single, multiple or partial OA/SIC codes as input and returns a 
 - `make all` - Runs audit test and build commands
 - `make audit` - Audits and finds vulnerable dependencies
 - `make build` - Builds ./Dockerfile image name: nlp_hub
-- `make build_bin` - Build bin file in folder build
+- `make build-bin` - Build bin file in folder build
 - `make clean` - Removes /bin folder
 - `make convey` - Runs only convey tests
 - `make debug` - Runs application locally with debug mode on
 - `make fmt` - Formats the code using go fmt and go vet
 - `make lint` - Automated checking of your source code for programmatic and stylistic errors
 - `make run` - Runs container name: hub from image name: nlp_hub
-- `make run_locally` - Runs the app locally
+- `make run-locally` - Runs the app locally
 - `make test` - Runs all tests with -cover -race flags
-- `make test_component` - Test components
+- `make test-component` - Test components
 - `make update` - Go gets all of the dependencies and downloads them
 
 ### Configuration
 
-| Environment variable         | Default   | Description
-| ---------------------------- | --------- | -----------
-| BIND_ADDR                    | :3002     | The host and port to bind to
-| GRACEFUL_SHUTDOWN_TIMEOUT    | 5s        | The graceful shutdown timeout in seconds (`time.Duration` format)
-| HEALTHCHECK_INTERVAL         | 30s       | Time between self-healthchecks (`time.Duration` format)
-| HEALTHCHECK_CRITICAL_TIMEOUT | 90s       | Time to wait until an unhealthy dependent propagates its state to make this app unhealthy (`time.Duration` format)
-|	AREA_DATA_FILE               | `data/2011 OAC Clusters and Names csv v2.csv` | The data files with the areas
-|	INDUSTRY_DATA_FILE           | `data/SIC07_CH_condensed_list_en.csv` |The data files with the industries
+| Environment variable         | Default                                       | Description
+| ---------------------------- | ---------                                     | -----------
+| AREA_DATA_FILE               | `data/2011 OAC Clusters and Names csv v2.csv` | The data files with the areas
+| BIND_ADDR                    | :28700                                        | The host and port to bind to
+| GRACEFUL_SHUTDOWN_TIMEOUT    | 5s                                            | The graceful shutdown timeout in seconds (`time.Duration` format)
+| HEALTHCHECK_INTERVAL         | 30s                                           | Time between self-healthchecks (`time.Duration` format)
+| HEALTHCHECK_CRITICAL_TIMEOUT | 90s                                           | Time to wait until an unhealthy dependent propagates its state to make this app unhealthy (`time.Duration` format)
+| INDUSTRY_DATA_FILE           | `data/SIC07_CH_condensed_list_en.csv`         |The data files with the industries
 
 ## Quick setup
 
@@ -49,23 +50,12 @@ make update
 go run .
 ```
 
-## Dependencies
-
-- `github.com/ONSdigital/log.go/v2 v2.3.0`
-- `github.com/alediaferia/prefixmap v1.0.1`
-- `github.com/gocarina/gocsv v0.0.0-20230123225133-763e25b40669`
-- `github.com/gorilla/mux v1.8.0`
-- `github.com/invopop/jsonschema v0.7.0`
-- `github.com/joho/godotenv v1.5.1`
-- `github.com/kelseyhightower/envconfig v1.4.0`
-- `go version go1.19.5 linux/amd64 `
-
 ## Usage
 
-Running the project either locally or in docker will expose port 3002.
+Running the project either locally or in docker will expose port 28700.
 
 ```shell
-curl 'http://localhost:3002/health' 
+curl 'http://localhost:28700/health' 
 ```
 This will return results of the form:
 
@@ -86,7 +76,7 @@ This will return results of the form:
 ```
 
 ```shell
-curl 'http://localhost:3002/scrubber/search?q=dentists%20in%20london'
+curl 'http://localhost:28700/v1/scrubber/search?q=dentists%20in%20london'
 ```
 This will return results of the form:
 
@@ -100,7 +90,7 @@ This will return results of the form:
 
 If you search for an area output code like: E00000014 and an industry code like: 01140
 ```shell
-curl 'http://localhost:3002/scrubber/search?q=dentists%20in%20E00000014%2001140'
+curl 'http://localhost:28700/v1/scrubber/search?q=dentists%20in%20E00000014%2001140'
 ```
 This will return results of the form:
 

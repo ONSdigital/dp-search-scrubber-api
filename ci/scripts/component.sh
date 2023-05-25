@@ -1,5 +1,5 @@
 #!/bin/bash -eux
 
-pushd dp-nlp-search-scrubber
+pushd dp-search-scrubber-api
   make test-component
 popd
