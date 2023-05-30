@@ -17,7 +17,7 @@ paths:
         - application/json
       parameters:
         - in: query
-          name: query_string
+          name: q
           description: "The query string to search data by"
           required: true
           type: "string"
