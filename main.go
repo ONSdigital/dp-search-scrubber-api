@@ -31,7 +31,6 @@ func main() {
 }
 
 func run(ctx context.Context) error {
-
 	signals := make(chan os.Signal, 1)
 	signal.Notify(signals, os.Interrupt, syscall.SIGTERM)
 
