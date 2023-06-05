@@ -1,0 +1,19 @@
+{
+    "query": "01230 01240 01250 E00000015",
+    "results": {
+        "industries": [
+            {
+                "code": "01230",
+                "name": "Growing of citrus fruits"
+            },
+            {
+                "code": "01240",
+                "name": "Growing of pome fruits and stone fruits"
+            },
+            {
+                "code": "01250",
+                "name": "Growing of other tree and bush fruits and nuts"
+            }
+        ]
+    }
+}

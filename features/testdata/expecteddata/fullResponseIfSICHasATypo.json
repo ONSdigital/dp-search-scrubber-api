@@ -1,0 +1,25 @@
+{
+    "query": "01230 01240 01251 E00000014",
+    "results": {
+        "areas": [
+            {
+                "codes": {
+                    "E00000014": "E00000014"
+                },
+                "name": "City of London",
+                "region": "London",
+                "region_code": "E12000007"
+            }
+        ],
+        "industries": [
+            {
+                "code": "01230",
+                "name": "Growing of citrus fruits"
+            },
+            {
+                "code": "01240",
+                "name": "Growing of pome fruits and stone fruits"
+            }            
+        ]
+    }
+}
