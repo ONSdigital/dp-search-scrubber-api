@@ -145,7 +145,7 @@ func TestGetSearch(t *testing.T) {
 						doCalls := httpClient.DoCalls()
 						So(doCalls, ShouldHaveLength, 1)
 						So(doCalls[0].Req.Method, ShouldEqual, "GET")
-						So(doCalls[0].Req.URL.Path, ShouldEqual, "/v1/scrubber/search")
+						So(doCalls[0].Req.URL.Path, ShouldEqual, "/v1/scrubber")
 						So(doCalls[0].Req.URL.Query().Get("q"), ShouldEqual, "census")
 						So(doCalls[0].Req.Header["Authorization"], ShouldBeEmpty)
 					})
