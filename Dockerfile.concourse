@@ -7,6 +7,5 @@ RUN mkdir data/
 COPY dp-search-scrubber-api .
 
 COPY data/ data/
-# COPY OVER THE DATA FOLDER FOR TESTING DEPLOYMENT
 
 CMD ./dp-search-scrubber-api

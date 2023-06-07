@@ -25,7 +25,7 @@ func TestSetup(t *testing.T) {
 	// Assert that the Router was set correctly
 	assert.Equal(t, r, api.Router)
 
-	// Assert that the "/scrubber/search" route was added
+	// Assert that the "/scrubber" route was added
 	route := r.Get("FindAllMatchingAreasAndIndustriesHandler")
 	assert.NotNil(t, route, "Expected FindAllMatchingAreasAndIndustriesHandler to be added")
 }
