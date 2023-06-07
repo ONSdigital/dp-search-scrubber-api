@@ -2,6 +2,11 @@ FROM onsdigital/dp-concourse-tools-ubuntu-20:ubuntu20.4-rc.1
 
 WORKDIR /app/
 
+RUN mkdir data/
+
 COPY dp-search-scrubber-api .
+
+COPY data/ data/
+# COPY OVER THE DATA FOLDER FOR TESTING DEPLOYMENT
 
 CMD ./dp-search-scrubber-api
