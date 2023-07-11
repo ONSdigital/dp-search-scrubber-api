@@ -25,7 +25,7 @@ func main() {
 	ctx := context.Background()
 
 	if err := run(ctx); err != nil {
-		log.Fatal(context.TODO(), "fatal runtime error\n", err)
+		log.Fatal(ctx, "fatal runtime error\n", err)
 		os.Exit(1)
 	}
 }
