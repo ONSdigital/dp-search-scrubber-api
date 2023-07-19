@@ -33,20 +33,23 @@ func GetScrubberParams(query url.Values) (*ScrubberParams, error) {
 	}
 
 	result.Query = query["q"][0]
+
 	result.rmSpecialCharsFromQuery()
-	result.getAllAcceptableCodesFromQuery()
+
+	result.splitAllAcceptableCodesFromQuery()
 
 	return &result, nil
 }
 
 func (sp *ScrubberParams) rmSpecialCharsFromQuery() {
-	re := regexp.MustCompile("[^a-zA-Z0-9]+")
+	re := regexp.MustCompile("[^A-Za-z0-9]+")
 
 	sp.Query = re.ReplaceAllString(sp.Query, " ")
 }
 
-func (sp *ScrubberParams) getAllAcceptableCodesFromQuery() {
+func (sp *ScrubberParams) splitAllAcceptableCodesFromQuery() {
 	querySl := strings.Split(sp.Query, " ")
+	sp.Query = ""
 
 	// regex for how a sic code looks like e.g. 12345
 	sicCodeRe := regexp.MustCompile(`^\d{5}$`)
@@ -57,14 +60,27 @@ func (sp *ScrubberParams) getAllAcceptableCodesFromQuery() {
 	// cache is here to make sure we don't duplicate entries
 	cache := make(map[string]string)
 	for _, v := range querySl {
+		// if it matches a SIC code
 		if _, ok := cache[v]; !ok && sicCodeRe.MatchString(v) {
 			cache[v] = v
 			sp.SIC = append(sp.SIC, v)
+			continue
 		}
 
+		// if it matches a OAC code
 		if _, ok := cache[v]; !ok && oacCodeRe.MatchString(v) {
 			cache[v] = v
 			sp.OAC = append(sp.OAC, v)
+			continue
+		}
+
+		//if it doesn't match any code and isn't composed of 2 letters
+		if _, ok := cache[v]; !ok && len(v) > 2 {
+			cache[v] = v
+			sp.Query = sp.Query + " " + v
 		}
 	}
+
+	// removing the last empty space " "
+	sp.Query = sp.Query[1:]
 }

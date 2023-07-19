@@ -28,10 +28,10 @@ func TestGetScrubberParamsHappyCases(t *testing.T) {
 		{
 			name: "query with special characters",
 			query: url.Values{
-				"q": []string{"#1 dental-care!"},
+				"q": []string{"1 dental-care!"},
 			},
 			expected: &ScrubberParams{
-				Query: " 1 dental care ",
+				Query: "dental care",
 				SIC:   []string{},
 				OAC:   []string{},
 			},
@@ -42,7 +42,7 @@ func TestGetScrubberParamsHappyCases(t *testing.T) {
 				"q": []string{"12345 dentists"},
 			},
 			expected: &ScrubberParams{
-				Query: "12345 dentists",
+				Query: "dentists",
 				SIC:   []string{"12345"},
 				OAC:   []string{},
 			},
@@ -53,7 +53,7 @@ func TestGetScrubberParamsHappyCases(t *testing.T) {
 				"q": []string{"X12345678 dentists"},
 			},
 			expected: &ScrubberParams{
-				Query: "X12345678 dentists",
+				Query: "dentists",
 				SIC:   []string{},
 				OAC:   []string{"X12345678"},
 			},
@@ -64,7 +64,7 @@ func TestGetScrubberParamsHappyCases(t *testing.T) {
 				"q": []string{"12345 X12345678 dentists 12345 X12345678"},
 			},
 			expected: &ScrubberParams{
-				Query: "12345 X12345678 dentists 12345 X12345678",
+				Query: "dentists",
 				SIC:   []string{"12345"},
 				OAC:   []string{"X12345678"},
 			},
