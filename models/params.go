@@ -74,7 +74,7 @@ func (sp *ScrubberParams) splitAllAcceptableCodesFromQuery() {
 			continue
 		}
 
-		//if it doesn't match any code and isn't composed of 2 letters
+		// if it doesn't match any code and isn't composed of 2 letters
 		if _, ok := cache[v]; !ok && len(v) > 2 {
 			cache[v] = v
 			sp.Query = sp.Query + " " + v
