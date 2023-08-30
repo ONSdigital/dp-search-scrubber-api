@@ -74,13 +74,17 @@ func (sp *ScrubberParams) splitAllAcceptableCodesFromQuery() {
 			continue
 		}
 
-		//if it doesn't match any code and isn't composed of 2 letters
+		// if it doesn't match a OAC or SIC code and isn't composed of 2 letters
 		if _, ok := cache[v]; !ok && len(v) > 2 {
 			cache[v] = v
+
+			// first sp.Query is always empty
+			if sp.Query == "" {
+				sp.Query = v
+				continue
+			}
+
 			sp.Query = sp.Query + " " + v
 		}
 	}
-
-	// removing the last empty space " "
-	sp.Query = sp.Query[1:]
 }
