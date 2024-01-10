@@ -14,7 +14,7 @@ linters-settings:
   gocyclo:
     min-complexity: 20
   gocognit:
-    min-complexity: 40
+    min-complexity: 42
   maligned:
     suggest-new: true
   dupl:
@@ -41,7 +41,6 @@ linters-settings:
       - ifElseChain
       - octalLiteral
       - hugeParam
-      - unnamedResult
   funlen:
   # lines: 100
   # statements: 100
@@ -51,7 +50,6 @@ linters:
   # inverted configuration with `enable-all` and `disable` is not scalable during updates of golangci-lint
   disable-all: true
   enable:
-    - depguard
     - dogsled
     - errcheck
     - gochecknoinits

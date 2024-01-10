@@ -15,7 +15,7 @@ import (
 	health "github.com/ONSdigital/dp-healthcheck/healthcheck"
 	dphttp "github.com/ONSdigital/dp-net/v2/http"
 	"github.com/ONSdigital/dp-search-scrubber-api/models"
-	. "github.com/smartystreets/goconvey/convey"
+	c "github.com/smartystreets/goconvey/convey"
 )
 
 const testHost = "http://localhost:23900"
@@ -55,57 +55,57 @@ func TestHealthCheckerClient(t *testing.T) {
 	timePriorHealthCheck := time.Now().UTC()
 	path := "/health"
 
-	Convey("Given clienter.Do returns an error", t, func() {
+	c.Convey("Given clienter.Do returns an error", t, func() {
 		clientError := errors.New("unexpected error")
 		httpClient := newMockHTTPClient(&http.Response{}, clientError)
 		searchAPIClient := newSearchAPIClient(t, httpClient)
 		check := initialTestState
 
-		Convey("When search API client Checker is called", func() {
+		c.Convey("When search API client Checker is called", func() {
 			err := searchAPIClient.Checker(ctx, &check)
-			So(err, ShouldBeNil)
+			c.So(err, c.ShouldBeNil)
 
-			Convey("Then the expected check is returned", func() {
-				So(check.Name(), ShouldEqual, service)
-				So(check.Status(), ShouldEqual, health.StatusCritical)
-				So(check.StatusCode(), ShouldEqual, 0)
-				So(check.Message(), ShouldEqual, clientError.Error())
-				So(*check.LastChecked(), ShouldHappenAfter, timePriorHealthCheck)
-				So(check.LastSuccess(), ShouldBeNil)
-				So(*check.LastFailure(), ShouldHappenAfter, timePriorHealthCheck)
+			c.Convey("Then the expected check is returned", func() {
+				c.So(check.Name(), c.ShouldEqual, service)
+				c.So(check.Status(), c.ShouldEqual, health.StatusCritical)
+				c.So(check.StatusCode(), c.ShouldEqual, 0)
+				c.So(check.Message(), c.ShouldEqual, clientError.Error())
+				c.So(*check.LastChecked(), c.ShouldHappenAfter, timePriorHealthCheck)
+				c.So(check.LastSuccess(), c.ShouldBeNil)
+				c.So(*check.LastFailure(), c.ShouldHappenAfter, timePriorHealthCheck)
 			})
 
-			Convey("And client.Do should be called once with the expected parameters", func() {
+			c.Convey("And client.Do should be called once with the expected parameters", func() {
 				doCalls := httpClient.DoCalls()
-				So(doCalls, ShouldHaveLength, 1)
-				So(doCalls[0].Req.URL.Path, ShouldEqual, path)
+				c.So(doCalls, c.ShouldHaveLength, 1)
+				c.So(doCalls[0].Req.URL.Path, c.ShouldEqual, path)
 			})
 		})
 	})
 
-	Convey("Given a 500 response for health check", t, func() {
+	c.Convey("Given a 500 response for health check", t, func() {
 		httpClient := newMockHTTPClient(&http.Response{StatusCode: http.StatusInternalServerError}, nil)
 		searchAPIClient := newSearchAPIClient(t, httpClient)
 		check := initialTestState
 
-		Convey("When search API client Checker is called", func() {
+		c.Convey("When search API client Checker is called", func() {
 			err := searchAPIClient.Checker(ctx, &check)
-			So(err, ShouldBeNil)
+			c.So(err, c.ShouldBeNil)
 
-			Convey("Then the expected check is returned", func() {
-				So(check.Name(), ShouldEqual, service)
-				So(check.Status(), ShouldEqual, health.StatusCritical)
-				So(check.StatusCode(), ShouldEqual, 500)
-				So(check.Message(), ShouldEqual, service+healthcheck.StatusMessage[health.StatusCritical])
-				So(*check.LastChecked(), ShouldHappenAfter, timePriorHealthCheck)
-				So(check.LastSuccess(), ShouldBeNil)
-				So(*check.LastFailure(), ShouldHappenAfter, timePriorHealthCheck)
+			c.Convey("Then the expected check is returned", func() {
+				c.So(check.Name(), c.ShouldEqual, service)
+				c.So(check.Status(), c.ShouldEqual, health.StatusCritical)
+				c.So(check.StatusCode(), c.ShouldEqual, 500)
+				c.So(check.Message(), c.ShouldEqual, service+healthcheck.StatusMessage[health.StatusCritical])
+				c.So(*check.LastChecked(), c.ShouldHappenAfter, timePriorHealthCheck)
+				c.So(check.LastSuccess(), c.ShouldBeNil)
+				c.So(*check.LastFailure(), c.ShouldHappenAfter, timePriorHealthCheck)
 			})
 
-			Convey("And client.Do should be called once with the expected parameters", func() {
+			c.Convey("And client.Do should be called once with the expected parameters", func() {
 				doCalls := httpClient.DoCalls()
-				So(doCalls, ShouldHaveLength, 1)
-				So(doCalls[0].Req.URL.Path, ShouldEqual, path)
+				c.So(doCalls, c.ShouldHaveLength, 1)
+				c.So(doCalls[0].Req.URL.Path, c.ShouldEqual, path)
 			})
 		})
 	})
@@ -115,7 +115,7 @@ func TestGetSearch(t *testing.T) {
 	t.Parallel()
 	ctx := context.Background()
 
-	Convey("Given request to find search results", t, func() {
+	c.Convey("Given request to find search results", t, func() {
 		body, err := json.Marshal(searchResults)
 		if err != nil {
 			t.Errorf("failed to setup test data, error: %v", err)
@@ -130,24 +130,24 @@ func TestGetSearch(t *testing.T) {
 
 		searchAPIClient := newSearchAPIClient(t, httpClient)
 
-		Convey("When GetSearch is called", func() {
+		c.Convey("When GetSearch is called", func() {
 			query := url.Values{}
 			query.Add("q", "census")
 			resp, err := searchAPIClient.GetSearch(ctx, Options{Query: query})
 
-			Convey("Then the expected response body is returned", func() {
-				So(*resp, ShouldResemble, searchResults)
+			c.Convey("Then the expected response body is returned", func() {
+				c.So(*resp, c.ShouldResemble, searchResults)
 
-				Convey("And no error is returned", func() {
-					So(err, ShouldBeNil)
+				c.Convey("And no error is returned", func() {
+					c.So(err, c.ShouldBeNil)
 
-					Convey("And client.Do should be called once with the expected parameters", func() {
+					c.Convey("And client.Do should be called once with the expected parameters", func() {
 						doCalls := httpClient.DoCalls()
-						So(doCalls, ShouldHaveLength, 1)
-						So(doCalls[0].Req.Method, ShouldEqual, "GET")
-						So(doCalls[0].Req.URL.Path, ShouldEqual, "/v1/scrubber")
-						So(doCalls[0].Req.URL.Query().Get("q"), ShouldEqual, "census")
-						So(doCalls[0].Req.Header["Authorization"], ShouldBeEmpty)
+						c.So(doCalls, c.ShouldHaveLength, 1)
+						c.So(doCalls[0].Req.Method, c.ShouldEqual, "GET")
+						c.So(doCalls[0].Req.URL.Path, c.ShouldEqual, "/v1/scrubber")
+						c.So(doCalls[0].Req.URL.Query().Get("q"), c.ShouldEqual, "census")
+						c.So(doCalls[0].Req.Header["Authorization"], c.ShouldBeEmpty)
 					})
 				})
 			})

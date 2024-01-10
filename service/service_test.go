@@ -15,7 +15,7 @@ import (
 	serviceMock "github.com/ONSdigital/dp-search-scrubber-api/service/mock"
 
 	"github.com/pkg/errors"
-	. "github.com/smartystreets/goconvey/convey"
+	c "github.com/smartystreets/goconvey/convey"
 )
 
 var (
@@ -39,9 +39,9 @@ var funcDoGetHTTPServerNil = func(bindAddr string, router http.Handler) service.
 }
 
 func TestRun(t *testing.T) {
-	Convey("Having a set of mocked dependencies", t, func() {
+	c.Convey("Having a set of mocked dependencies", t, func() {
 		cfg, err := config.Get()
-		So(err, ShouldBeNil)
+		c.So(err, c.ShouldBeNil)
 
 		hcMock := &serviceMock.HealthCheckerMock{
 			AddCheckFunc: func(name string, checker healthcheck.Checker) error { return nil },
@@ -75,8 +75,8 @@ func TestRun(t *testing.T) {
 			return failingServerMock
 		}
 
-		Convey("Given that initialising healthcheck returns an error", func() {
-			// setup (run before each `Convey` at this scope / indentation):
+		c.Convey("Given that initialising healthcheck returns an error", func() {
+			// setup (run before each `c.Convey` at this scope / indentation):
 			initMock := &serviceMock.InitialiserMock{
 				DoGetHTTPServerFunc:  funcDoGetHTTPServerNil,
 				DoGetHealthCheckFunc: funcDoGetHealthcheckErr,
@@ -85,18 +85,18 @@ func TestRun(t *testing.T) {
 			svcList := service.NewServiceList(initMock)
 			_, err := service.Run(ctx, cfg, svcList, testBuildTime, testGitCommit, testVersion, svcErrors)
 
-			Convey("Then service Run fails with the same error and the flag is not set", func() {
-				So(err, ShouldResemble, errHealthcheck)
-				So(svcList.HealthCheck, ShouldBeFalse)
+			c.Convey("Then service Run fails with the same error and the flag is not set", func() {
+				c.So(err, c.ShouldResemble, errHealthcheck)
+				c.So(svcList.HealthCheck, c.ShouldBeFalse)
 			})
 
-			Reset(func() {
-				// This reset is run after each `Convey` at the same scope (indentation)
+			c.Reset(func() {
+				// This c.reset is run after each `c.Convey` at the same scope (indentation)
 			})
 		})
 
-		Convey("Given that all dependencies are successfully initialised", func() {
-			// setup (run before each `Convey` at this scope / indentation):
+		c.Convey("Given that all dependencies are successfully initialised", func() {
+			// setup (run before each `c.Convey` at this scope / indentation):
 			initMock := &serviceMock.InitialiserMock{
 				DoGetHTTPServerFunc:  funcDoGetHTTPServer,
 				DoGetHealthCheckFunc: funcDoGetHealthcheckOk,
@@ -106,28 +106,28 @@ func TestRun(t *testing.T) {
 			serverWg.Add(1)
 			_, err := service.Run(ctx, cfg, svcList, testBuildTime, testGitCommit, testVersion, svcErrors)
 
-			Convey("Then service Run succeeds and all the flags are set", func() {
-				So(err, ShouldBeNil)
-				So(svcList.HealthCheck, ShouldBeTrue)
+			c.Convey("Then service Run succeeds and all the flags are set", func() {
+				c.So(err, c.ShouldBeNil)
+				c.So(svcList.HealthCheck, c.ShouldBeTrue)
 			})
 
-			Convey("The checkers are registered and the healthcheck and http server started", func() {
-				So(len(hcMock.AddCheckCalls()), ShouldEqual, 0)
-				So(len(initMock.DoGetHTTPServerCalls()), ShouldEqual, 1)
-				So(initMock.DoGetHTTPServerCalls()[0].BindAddr, ShouldEqual, ":28700")
-				So(len(hcMock.StartCalls()), ShouldEqual, 1)
+			c.Convey("The checkers are registered and the healthcheck and http server started", func() {
+				c.So(len(hcMock.AddCheckCalls()), c.ShouldEqual, 0)
+				c.So(len(initMock.DoGetHTTPServerCalls()), c.ShouldEqual, 1)
+				c.So(initMock.DoGetHTTPServerCalls()[0].BindAddr, c.ShouldEqual, ":28700")
+				c.So(len(hcMock.StartCalls()), c.ShouldEqual, 1)
 				//!!! a call needed to stop the server, maybe ?
 				serverWg.Wait() // Wait for HTTP server go-routine to finish
-				So(len(serverMock.ListenAndServeCalls()), ShouldEqual, 1)
+				c.So(len(serverMock.ListenAndServeCalls()), c.ShouldEqual, 1)
 			})
 
-			Reset(func() {
-				// This reset is run after each `Convey` at the same scope (indentation)
+			c.Reset(func() {
+				// This c.reset is run after each `c.Convey` at the same scope (indentation)
 			})
 		})
 
-		Convey("Given that all dependencies are successfully initialised but the http server fails", func() {
-			// setup (run before each `Convey` at this scope / indentation):
+		c.Convey("Given that all dependencies are successfully initialised but the http server fails", func() {
+			// setup (run before each `c.Convey` at this scope / indentation):
 			initMock := &serviceMock.InitialiserMock{
 				DoGetHealthCheckFunc: funcDoGetHealthcheckOk,
 				DoGetHTTPServerFunc:  funcDoGetFailingHTTPSerer,
@@ -136,25 +136,25 @@ func TestRun(t *testing.T) {
 			svcList := service.NewServiceList(initMock)
 			serverWg.Add(1)
 			_, err := service.Run(ctx, cfg, svcList, testBuildTime, testGitCommit, testVersion, svcErrors)
-			So(err, ShouldBeNil)
+			c.So(err, c.ShouldBeNil)
 
-			Convey("Then the error is returned in the error channel", func() {
+			c.Convey("Then the error is returned in the error channel", func() {
 				sErr := <-svcErrors
-				So(sErr.Error(), ShouldResemble, fmt.Sprintf("failure in http listen and serve: %s", errServer.Error()))
-				So(len(failingServerMock.ListenAndServeCalls()), ShouldEqual, 1)
+				c.So(sErr.Error(), c.ShouldResemble, fmt.Sprintf("failure in http listen and serve: %s", errServer.Error()))
+				c.So(len(failingServerMock.ListenAndServeCalls()), c.ShouldEqual, 1)
 			})
 
-			Reset(func() {
-				// This reset is run after each `Convey` at the same scope (indentation)
+			c.Reset(func() {
+				// This c.reset is run after each `c.Convey` at the same scope (indentation)
 			})
 		})
 	})
 }
 
 func TestClose(t *testing.T) {
-	Convey("Having a correctly initialised service", t, func() {
+	c.Convey("Having a correctly initialised service", t, func() {
 		cfg, err := config.Get()
-		So(err, ShouldBeNil)
+		c.So(err, c.ShouldBeNil)
 
 		hcStopped := false
 
@@ -176,7 +176,7 @@ func TestClose(t *testing.T) {
 			},
 		}
 
-		Convey("Closing the service results in all the dependencies being closed in the expected order", func() {
+		c.Convey("Closing the service results in all the dependencies being closed in the expected order", func() {
 			initMock := &serviceMock.InitialiserMock{
 				DoGetHTTPServerFunc: func(bindAddr string, router http.Handler) service.HTTPServer { return serverMock },
 				DoGetHealthCheckFunc: func(cfg *config.Config, buildTime string, gitCommit string, version string) (service.HealthChecker, error) {
@@ -187,15 +187,15 @@ func TestClose(t *testing.T) {
 			svcErrors := make(chan error, 1)
 			svcList := service.NewServiceList(initMock)
 			svc, serviceErr := service.Run(ctx, cfg, svcList, testBuildTime, testGitCommit, testVersion, svcErrors)
-			So(serviceErr, ShouldBeNil)
+			c.So(serviceErr, c.ShouldBeNil)
 
 			closingErr := svc.Close(context.Background())
-			So(closingErr, ShouldBeNil)
-			So(len(hcMock.StopCalls()), ShouldEqual, 1)
-			So(len(serverMock.ShutdownCalls()), ShouldEqual, 1)
+			c.So(closingErr, c.ShouldBeNil)
+			c.So(len(hcMock.StopCalls()), c.ShouldEqual, 1)
+			c.So(len(serverMock.ShutdownCalls()), c.ShouldEqual, 1)
 		})
 
-		Convey("If services fail to stop, the Close operation tries to close all dependencies and returns an error", func() {
+		c.Convey("If services fail to stop, the Close operation tries to close all dependencies and returns an error", func() {
 			failingserverMock := &serviceMock.HTTPServerMock{
 				ListenAndServeFunc: func() error { return nil },
 				ShutdownFunc: func(ctx context.Context) error {
@@ -213,15 +213,15 @@ func TestClose(t *testing.T) {
 			svcErrors := make(chan error, 1)
 			svcList := service.NewServiceList(initMock)
 			svc, serviceErr := service.Run(ctx, cfg, svcList, testBuildTime, testGitCommit, testVersion, svcErrors)
-			So(serviceErr, ShouldBeNil)
+			c.So(serviceErr, c.ShouldBeNil)
 
 			closingErr := svc.Close(context.Background())
-			So(closingErr, ShouldNotBeNil)
-			So(len(hcMock.StopCalls()), ShouldEqual, 1)
-			So(len(failingserverMock.ShutdownCalls()), ShouldEqual, 1)
+			c.So(closingErr, c.ShouldNotBeNil)
+			c.So(len(hcMock.StopCalls()), c.ShouldEqual, 1)
+			c.So(len(failingserverMock.ShutdownCalls()), c.ShouldEqual, 1)
 		})
 
-		Convey("If service times out while shutting down, the Close operation fails with the expected error", func() {
+		c.Convey("If service times out while shutting down, the Close operation fails with the expected error", func() {
 			cfg.GracefulShutdownTimeout = 1 * time.Millisecond
 			timeoutServerMock := &serviceMock.HTTPServerMock{
 				ListenAndServeFunc: func() error { return nil },
@@ -241,10 +241,10 @@ func TestClose(t *testing.T) {
 			}
 
 			closingErr := svc.Close(context.Background())
-			So(closingErr, ShouldNotBeNil)
-			So(closingErr.Error(), ShouldResemble, "context deadline exceeded")
-			So(len(hcMock.StopCalls()), ShouldEqual, 1)
-			So(len(timeoutServerMock.ShutdownCalls()), ShouldEqual, 1)
+			c.So(closingErr, c.ShouldNotBeNil)
+			c.So(closingErr.Error(), c.ShouldResemble, "context deadline exceeded")
+			c.So(len(hcMock.StopCalls()), c.ShouldEqual, 1)
+			c.So(len(timeoutServerMock.ShutdownCalls()), c.ShouldEqual, 1)
 		})
 	})
 }
