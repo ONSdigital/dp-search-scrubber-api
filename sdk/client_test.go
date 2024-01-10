@@ -58,7 +58,7 @@ func TestHealthCheckerClient(t *testing.T) {
 	c.Convey("Given clienter.Do returns an error", t, func() {
 		clientError := errors.New("unexpected error")
 		httpClient := newMockHTTPClient(&http.Response{}, clientError)
-		searchAPIClient := newSearchAPIClient(t, httpClient)
+		searchAPIClient := newSearchAPIClient(httpClient)
 		check := initialTestState
 
 		c.Convey("When search API client Checker is called", func() {
@@ -85,7 +85,7 @@ func TestHealthCheckerClient(t *testing.T) {
 
 	c.Convey("Given a 500 response for health check", t, func() {
 		httpClient := newMockHTTPClient(&http.Response{StatusCode: http.StatusInternalServerError}, nil)
-		searchAPIClient := newSearchAPIClient(t, httpClient)
+		searchAPIClient := newSearchAPIClient(httpClient)
 		check := initialTestState
 
 		c.Convey("When search API client Checker is called", func() {
@@ -128,7 +128,7 @@ func TestGetSearch(t *testing.T) {
 			},
 			nil)
 
-		searchAPIClient := newSearchAPIClient(t, httpClient)
+		searchAPIClient := newSearchAPIClient(httpClient)
 
 		c.Convey("When GetSearch is called", func() {
 			query := url.Values{}
@@ -168,7 +168,7 @@ func newMockHTTPClient(r *http.Response, err error) *dphttp.ClienterMock {
 	}
 }
 
-func newSearchAPIClient(t *testing.T, httpClient *dphttp.ClienterMock) *Client {
+func newSearchAPIClient(httpClient *dphttp.ClienterMock) *Client {
 	healthClient := healthcheck.NewClientWithClienter(service, testHost, httpClient)
 	return NewWithHealthClient(healthClient)
 }
