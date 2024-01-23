@@ -133,7 +133,7 @@ func TestGetScrubber(t *testing.T) {
 		c.Convey("When GetScrubber is called", func() {
 			query := url.Values{}
 			query.Add("q", "sic code")
-			resp, err := scrubberAPIClient.GetScrubber(ctx, Options{Query: query})
+			resp, err := scrubberAPIClient.GetScrubber(ctx, "/v1", Options{Query: query})
 
 			c.Convey("Then the expected response body is returned", func() {
 				c.So(*resp, c.ShouldResemble, scrubberResults)
