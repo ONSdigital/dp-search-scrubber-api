@@ -23,7 +23,7 @@ const testHost = "http://localhost:23900"
 var (
 	initialTestState = healthcheck.CreateCheckState(service)
 
-	searchResults = models.ScrubberResp{
+	scrubberResults = models.ScrubberResp{
 		Time:  "10",
 		Query: "sth",
 		Results: models.Results{
@@ -58,11 +58,11 @@ func TestHealthCheckerClient(t *testing.T) {
 	c.Convey("Given clienter.Do returns an error", t, func() {
 		clientError := errors.New("unexpected error")
 		httpClient := newMockHTTPClient(&http.Response{}, clientError)
-		searchAPIClient := newSearchAPIClient(httpClient)
+		scrubberAPIClient := newScrubberAPIClient(httpClient)
 		check := initialTestState
 
-		c.Convey("When search API client Checker is called", func() {
-			err := searchAPIClient.Checker(ctx, &check)
+		c.Convey("When scrubber API client Checker is called", func() {
+			err := scrubberAPIClient.Checker(ctx, &check)
 			c.So(err, c.ShouldBeNil)
 
 			c.Convey("Then the expected check is returned", func() {
@@ -85,11 +85,11 @@ func TestHealthCheckerClient(t *testing.T) {
 
 	c.Convey("Given a 500 response for health check", t, func() {
 		httpClient := newMockHTTPClient(&http.Response{StatusCode: http.StatusInternalServerError}, nil)
-		searchAPIClient := newSearchAPIClient(httpClient)
+		scrubberAPIClient := newScrubberAPIClient(httpClient)
 		check := initialTestState
 
-		c.Convey("When search API client Checker is called", func() {
-			err := searchAPIClient.Checker(ctx, &check)
+		c.Convey("When scrubber API client Checker is called", func() {
+			err := scrubberAPIClient.Checker(ctx, &check)
 			c.So(err, c.ShouldBeNil)
 
 			c.Convey("Then the expected check is returned", func() {
@@ -111,12 +111,12 @@ func TestHealthCheckerClient(t *testing.T) {
 	})
 }
 
-func TestGetSearch(t *testing.T) {
+func TestGetScrubber(t *testing.T) {
 	t.Parallel()
 	ctx := context.Background()
 
-	c.Convey("Given request to find search results", t, func() {
-		body, err := json.Marshal(searchResults)
+	c.Convey("Given request to find scrubber API results", t, func() {
+		body, err := json.Marshal(scrubberResults)
 		if err != nil {
 			t.Errorf("failed to setup test data, error: %v", err)
 		}
@@ -128,15 +128,15 @@ func TestGetSearch(t *testing.T) {
 			},
 			nil)
 
-		searchAPIClient := newSearchAPIClient(httpClient)
+		scrubberAPIClient := newScrubberAPIClient(httpClient)
 
-		c.Convey("When GetSearch is called", func() {
+		c.Convey("When GetScrubber is called", func() {
 			query := url.Values{}
-			query.Add("q", "census")
-			resp, err := searchAPIClient.GetSearch(ctx, Options{Query: query})
+			query.Add("q", "sic code")
+			resp, err := scrubberAPIClient.GetScrubber(ctx, Options{Query: query})
 
 			c.Convey("Then the expected response body is returned", func() {
-				c.So(*resp, c.ShouldResemble, searchResults)
+				c.So(*resp, c.ShouldResemble, scrubberResults)
 
 				c.Convey("And no error is returned", func() {
 					c.So(err, c.ShouldBeNil)
@@ -146,7 +146,7 @@ func TestGetSearch(t *testing.T) {
 						c.So(doCalls, c.ShouldHaveLength, 1)
 						c.So(doCalls[0].Req.Method, c.ShouldEqual, "GET")
 						c.So(doCalls[0].Req.URL.Path, c.ShouldEqual, "/v1/scrubber")
-						c.So(doCalls[0].Req.URL.Query().Get("q"), c.ShouldEqual, "census")
+						c.So(doCalls[0].Req.URL.Query().Get("q"), c.ShouldEqual, "sic code")
 						c.So(doCalls[0].Req.Header["Authorization"], c.ShouldBeEmpty)
 					})
 				})
@@ -168,7 +168,7 @@ func newMockHTTPClient(r *http.Response, err error) *dphttp.ClienterMock {
 	}
 }
 
-func newSearchAPIClient(httpClient *dphttp.ClienterMock) *Client {
+func newScrubberAPIClient(httpClient *dphttp.ClienterMock) *Client {
 	healthClient := healthcheck.NewClientWithClienter(service, testHost, httpClient)
 	return NewWithHealthClient(healthClient)
 }

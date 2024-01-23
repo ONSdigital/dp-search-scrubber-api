@@ -23,14 +23,14 @@ type Client struct {
 	hcCli *healthcheck.Client
 }
 
-// New creates a new instance of Client with a given search api url
+// New creates a new instance of Client with a given Scrubber API url
 func New(scrubberAPIURL string) *Client {
 	return &Client{
 		hcCli: healthcheck.NewClient(service, scrubberAPIURL),
 	}
 }
 
-// NewWithHealthClient creates a new instance of search API Client,
+// NewWithHealthClient creates a new instance of Scrubber API Client,
 // reusing the URL and Clienter from the provided healthcheck client
 func NewWithHealthClient(hcCli *healthcheck.Client) *Client {
 	return &Client{
@@ -43,24 +43,24 @@ func (cli *Client) URL() string {
 	return cli.hcCli.URL
 }
 
-// Health returns the underlying Healthcheck Client for this search API client
+// Health returns the underlying Healthcheck Client for this Scrubber API client
 func (cli *Client) Health() *healthcheck.Client {
 	return cli.hcCli
 }
 
-// Checker calls search api health endpoint and returns a check object to the caller
+// Checker calls Scrubber API health endpoint and returns a check object to the caller
 func (cli *Client) Checker(ctx context.Context, check *health.CheckState) error {
 	return cli.hcCli.Checker(ctx, check)
 }
 
-// GetSearch gets a list of search results based on the search request
-func (cli *Client) GetSearch(ctx context.Context, options Options) (*models.ScrubberResp, errors.Error) {
+// GetScrubber gets a list of OAC and SIC codes based on the request
+func (cli *Client) GetScrubber(ctx context.Context, options Options) (*models.ScrubberResp, errors.Error) {
 	path := fmt.Sprintf("%s/v1/scrubber", cli.URL())
 	if options.Query != nil {
 		path = path + "?" + options.Query.Encode()
 	}
 
-	respInfo, apiErr := cli.callScrubberSearchAPI(ctx, path, http.MethodGet, options.Headers, nil)
+	respInfo, apiErr := cli.callScrubberAPI(ctx, path, http.MethodGet, options.Headers, nil)
 	if apiErr != nil {
 		return nil, apiErr
 	}
@@ -69,7 +69,7 @@ func (cli *Client) GetSearch(ctx context.Context, options Options) (*models.Scru
 
 	if err := json.Unmarshal(respInfo.Body, &scrubberResponse); err != nil {
 		return nil, errors.StatusError{
-			Err: fmt.Errorf("failed to unmarshal search response - error is: %v", err),
+			Err: fmt.Errorf("failed to unmarshal scrubber response - error is: %v", err),
 		}
 	}
 
@@ -82,9 +82,9 @@ type ResponseInfo struct {
 	Status  int
 }
 
-// callScrubberSearchAPI calls the Search API endpoint given by path for the provided REST method, request headers, and body payload.
+// callScrubberAPI calls the Scrubber API endpoint given by path for the provided REST method, request headers, and body payload.
 // It returns the response body and any error that occurred.
-func (cli *Client) callScrubberSearchAPI(ctx context.Context, path, method string, headers http.Header, payload []byte) (*ResponseInfo, errors.Error) {
+func (cli *Client) callScrubberAPI(ctx context.Context, path, method string, headers http.Header, payload []byte) (*ResponseInfo, errors.Error) {
 	URL, err := url.Parse(path)
 	if err != nil {
 		return nil, errors.StatusError{
@@ -105,7 +105,7 @@ func (cli *Client) callScrubberSearchAPI(ctx context.Context, path, method strin
 	// check req, above, didn't error
 	if err != nil {
 		return nil, errors.StatusError{
-			Err: fmt.Errorf("failed to create request for call to search api, error is: %v", err),
+			Err: fmt.Errorf("failed to create request for call to scrubber api, error is: %v", err),
 		}
 	}
 
@@ -119,7 +119,7 @@ func (cli *Client) callScrubberSearchAPI(ctx context.Context, path, method strin
 	resp, err := cli.hcCli.Client.Do(ctx, req)
 	if err != nil {
 		return nil, errors.StatusError{
-			Err:  fmt.Errorf("failed to call search api, error is: %v", err),
+			Err:  fmt.Errorf("failed to call scrubber api, error is: %v", err),
 			Code: http.StatusInternalServerError,
 		}
 	}
@@ -134,7 +134,7 @@ func (cli *Client) callScrubberSearchAPI(ctx context.Context, path, method strin
 
 	if resp.StatusCode < http.StatusOK || resp.StatusCode >= 400 {
 		return respInfo, errors.StatusError{
-			Err:  fmt.Errorf("failed as unexpected code from search api: %v", resp.StatusCode),
+			Err:  fmt.Errorf("failed as unexpected code from scrubber api: %v", resp.StatusCode),
 			Code: resp.StatusCode,
 		}
 	}
@@ -146,7 +146,7 @@ func (cli *Client) callScrubberSearchAPI(ctx context.Context, path, method strin
 	respInfo.Body, err = io.ReadAll(resp.Body)
 	if err != nil {
 		return respInfo, errors.StatusError{
-			Err:  fmt.Errorf("failed to read response body from call to search api, error is: %v", err),
+			Err:  fmt.Errorf("failed to read response body from call to scrubber api, error is: %v", err),
 			Code: resp.StatusCode,
 		}
 	}
@@ -158,7 +158,7 @@ func closeResponseBody(resp *http.Response) errors.Error {
 	if resp.Body != nil {
 		if err := resp.Body.Close(); err != nil {
 			return errors.StatusError{
-				Err:  fmt.Errorf("error closing http response body from call to search api, error is: %v", err),
+				Err:  fmt.Errorf("error closing http response body from call to scrubber api, error is: %v", err),
 				Code: http.StatusInternalServerError,
 			}
 		}

@@ -11,7 +11,7 @@ const (
 	CollectionID  string = "Collection-Id"
 )
 
-// Options is a struct containing for customised options for the API client
+// Options is a struct containing for customised options for the scrubber API client
 type Options struct {
 	Headers http.Header
 	Query   url.Values

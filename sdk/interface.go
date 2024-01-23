@@ -11,9 +11,10 @@ import (
 
 //go:generate moq -out ./mocks/client.go -pkg mocks . Clienter
 
+// Clienter interface for scrubber API client
 type Clienter interface {
 	Checker(ctx context.Context, check *health.CheckState) error
-	GetSearch(ctx context.Context, options Options) (*models.ScrubberResp, errors.Error)
+	GetScrubber(ctx context.Context, options Options) (*models.ScrubberResp, errors.Error)
 	Health() *healthcheck.Client
 	URL() string
 }
