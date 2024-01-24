@@ -66,7 +66,8 @@ func TestGetAllMatchingIndustries(t *testing.T) {
 		// algorithm of PrefixMap is depth first search
 		// so It will get the data in reverse
 		// keep that in mind when updating tests
-		// matching by partial query currently suspendet
+		// matching by partial query currently suspended
+		// it is possible to match by partial query,
 		// {
 		// 	name:          "matching partial query",
 		// 	query:         []string{"ind"},
@@ -134,7 +135,7 @@ func TestGetAllMatchingAreas(t *testing.T) {
 		// 	// PrefixMap algorithm is depth first search
 		// 	// so when running partial queries it will get
 		// 	// the last area first, keep that in mind when updating tests
-		//  Partial matching feature suspendet
+		//  Partial matching feature suspended
 		// 	name:  "matching partial queries",
 		// 	query: []string{"OAC"},
 		// 	expectedNames: []*models.AreaResp{

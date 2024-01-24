@@ -26,8 +26,8 @@ var _ sdk.Clienter = &ClienterMock{}
 //			CheckerFunc: func(ctx context.Context, check *health.CheckState) error {
 //				panic("mock out the Checker method")
 //			},
-//			GetSearchFunc: func(ctx context.Context, options sdk.Options) (*models.ScrubberResp, errors.Error) {
-//				panic("mock out the GetSearch method")
+//			GetScrubberFunc: func(ctx context.Context, options sdk.Options) (*models.ScrubberResp, errors.Error) {
+//				panic("mock out the GetScrubber method")
 //			},
 //			HealthFunc: func() *healthcheck.Client {
 //				panic("mock out the Health method")
@@ -45,8 +45,8 @@ type ClienterMock struct {
 	// CheckerFunc mocks the Checker method.
 	CheckerFunc func(ctx context.Context, check *health.CheckState) error
 
-	// GetSearchFunc mocks the GetSearch method.
-	GetSearchFunc func(ctx context.Context, options sdk.Options) (*models.ScrubberResp, errors.Error)
+	// GetScrubberFunc mocks the GetScrubber method.
+	GetScrubberFunc func(ctx context.Context, options sdk.Options) (*models.ScrubberResp, errors.Error)
 
 	// HealthFunc mocks the Health method.
 	HealthFunc func() *healthcheck.Client
@@ -63,8 +63,8 @@ type ClienterMock struct {
 			// Check is the check argument value.
 			Check *health.CheckState
 		}
-		// GetSearch holds details about calls to the GetSearch method.
-		GetSearch []struct {
+		// GetScrubber holds details about calls to the GetScrubber method.
+		GetScrubber []struct {
 			// Ctx is the ctx argument value.
 			Ctx context.Context
 			// Options is the options argument value.
@@ -77,10 +77,10 @@ type ClienterMock struct {
 		URL []struct {
 		}
 	}
-	lockChecker   sync.RWMutex
-	lockGetSearch sync.RWMutex
-	lockHealth    sync.RWMutex
-	lockURL       sync.RWMutex
+	lockChecker     sync.RWMutex
+	lockGetScrubber sync.RWMutex
+	lockHealth      sync.RWMutex
+	lockURL         sync.RWMutex
 }
 
 // Checker calls CheckerFunc.
@@ -119,10 +119,10 @@ func (mock *ClienterMock) CheckerCalls() []struct {
 	return calls
 }
 
-// GetSearch calls GetSearchFunc.
-func (mock *ClienterMock) GetSearch(ctx context.Context, options sdk.Options) (*models.ScrubberResp, errors.Error) {
-	if mock.GetSearchFunc == nil {
-		panic("ClienterMock.GetSearchFunc: method is nil but Clienter.GetSearch was just called")
+// GetScrubber calls GetScrubberFunc.
+func (mock *ClienterMock) GetScrubber(ctx context.Context, options sdk.Options) (*models.ScrubberResp, errors.Error) {
+	if mock.GetScrubberFunc == nil {
+		panic("ClienterMock.GetScrubberFunc: method is nil but Clienter.GetScrubber was just called")
 	}
 	callInfo := struct {
 		Ctx     context.Context
@@ -131,17 +131,17 @@ func (mock *ClienterMock) GetSearch(ctx context.Context, options sdk.Options) (*
 		Ctx:     ctx,
 		Options: options,
 	}
-	mock.lockGetSearch.Lock()
-	mock.calls.GetSearch = append(mock.calls.GetSearch, callInfo)
-	mock.lockGetSearch.Unlock()
-	return mock.GetSearchFunc(ctx, options)
+	mock.lockGetScrubber.Lock()
+	mock.calls.GetScrubber = append(mock.calls.GetScrubber, callInfo)
+	mock.lockGetScrubber.Unlock()
+	return mock.GetScrubberFunc(ctx, options)
 }
 
-// GetSearchCalls gets all the calls that were made to GetSearch.
+// GetScrubberCalls gets all the calls that were made to GetScrubber.
 // Check the length with:
 //
-//	len(mockedClienter.GetSearchCalls())
-func (mock *ClienterMock) GetSearchCalls() []struct {
+//	len(mockedClienter.GetScrubberCalls())
+func (mock *ClienterMock) GetScrubberCalls() []struct {
 	Ctx     context.Context
 	Options sdk.Options
 } {
@@ -149,9 +149,9 @@ func (mock *ClienterMock) GetSearchCalls() []struct {
 		Ctx     context.Context
 		Options sdk.Options
 	}
-	mock.lockGetSearch.RLock()
-	calls = mock.calls.GetSearch
-	mock.lockGetSearch.RUnlock()
+	mock.lockGetScrubber.RLock()
+	calls = mock.calls.GetScrubber
+	mock.lockGetScrubber.RUnlock()
 	return calls
 }
 

@@ -61,7 +61,7 @@ run-container: build ## First builds ./Dockerfile with image name: scrubber and 
 test: ## Runs standard unit test tests
 	go test -race -cover ./... 
 
-test-all: test-convey test-component test ## Runs all tests with -race and -cover flags
+test-all: test-component test ## Runs all tests with -race and -cover flags
 	go test -race -cover ./...
 
 test-component: ## Runs component tests

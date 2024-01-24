@@ -13,7 +13,7 @@ type API struct {
 	Router *mux.Router
 }
 
-// Setup function sets up the api and returns an api
+// Setup function sets up the api and returns a pointer to an API struct
 func Setup(ctx context.Context, r *mux.Router, cfg *config.Config) *API {
 	api := &API{
 		Router: r,
