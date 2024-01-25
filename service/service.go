@@ -40,7 +40,7 @@ func Run(ctx context.Context, cfg *config.Config, serviceList *ExternalServiceLi
 		return nil, err
 	}
 
-	r.StrictSlash(true).Path("/health").HandlerFunc(hc.Handler)
+	r.StrictSlash(true).Path("/v1/health").HandlerFunc(hc.Handler)
 	hc.Start(ctx)
 
 	// Run the http server in a new go-routine

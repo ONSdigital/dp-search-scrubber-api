@@ -18,7 +18,7 @@ import (
 	c "github.com/smartystreets/goconvey/convey"
 )
 
-const testHost = "http://localhost:23900"
+const testHost = "http://localhost:23900/v1"
 
 var (
 	initialTestState = healthcheck.CreateCheckState(service)
@@ -53,7 +53,7 @@ func TestHealthCheckerClient(t *testing.T) {
 	ctx := context.Background()
 
 	timePriorHealthCheck := time.Now().UTC()
-	path := "/health"
+	path := "/v1/health"
 
 	c.Convey("Given clienter.Do returns an error", t, func() {
 		clientError := errors.New("unexpected error")
@@ -133,7 +133,7 @@ func TestGetScrubber(t *testing.T) {
 		c.Convey("When GetScrubber is called", func() {
 			query := url.Values{}
 			query.Add("q", "sic code")
-			resp, err := scrubberAPIClient.GetScrubber(ctx, "/v1", Options{Query: query})
+			resp, err := scrubberAPIClient.GetScrubber(ctx, Options{Query: query})
 
 			c.Convey("Then the expected response body is returned", func() {
 				c.So(*resp, c.ShouldResemble, scrubberResults)
