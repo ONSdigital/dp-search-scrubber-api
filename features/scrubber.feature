@@ -1,5 +1,4 @@
-Feature: Helloworld
-    Feature: Scrubber
+Feature: Scrubber Endpoint
     Scenario: When Searching for Without OAC or SIC codes I get empty resp
         When I GET "/scrubber?q=dentists"
         And the response body is the same as the json in "./features/testdata/expecteddata/emptyResponse.json"
