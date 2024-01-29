@@ -76,7 +76,7 @@ This will return results of the form:
 ```
 
 ```shell
-curl 'http://localhost:28700/v1/scrubber?q=dentists%20in%20london'
+curl 'http://localhost:28700/scrubber?q=dentists%20in%20london'
 ```
 This will return results of the form:
 
@@ -90,7 +90,7 @@ This will return results of the form:
 
 If you search for an area output code like: E00000014 and an industry code like: 01140
 ```shell
-curl 'http://localhost:28700/v1/scrubber?q=dentists%20in%20E00000014%2001140'
+curl 'http://localhost:28700/scrubber?q=dentists%20in%20E00000014%2001140'
 ```
 This will return results of the form:
 

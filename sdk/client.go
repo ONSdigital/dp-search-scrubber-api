@@ -55,7 +55,6 @@ func (cli *Client) Checker(ctx context.Context, check *health.CheckState) error 
 
 // GetScrubber gets a list of OAC and SIC codes based on the request
 // options contain headers and a query
-// version contains the version e.g. "/v1"
 func (cli *Client) GetScrubber(ctx context.Context, options Options) (*models.ScrubberResp, errors.Error) {
 	path := fmt.Sprintf("%s/scrubber", cli.URL())
 	if options.Query != nil {

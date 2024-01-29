@@ -18,7 +18,7 @@ import (
 	c "github.com/smartystreets/goconvey/convey"
 )
 
-const testHost = "http://localhost:23900/v1"
+const testHost = "http://localhost:23900"
 
 var (
 	initialTestState = healthcheck.CreateCheckState(service)
@@ -53,7 +53,7 @@ func TestHealthCheckerClient(t *testing.T) {
 	ctx := context.Background()
 
 	timePriorHealthCheck := time.Now().UTC()
-	path := "/v1/health"
+	path := "/health"
 
 	c.Convey("Given clienter.Do returns an error", t, func() {
 		clientError := errors.New("unexpected error")
@@ -145,7 +145,7 @@ func TestGetScrubber(t *testing.T) {
 						doCalls := httpClient.DoCalls()
 						c.So(doCalls, c.ShouldHaveLength, 1)
 						c.So(doCalls[0].Req.Method, c.ShouldEqual, "GET")
-						c.So(doCalls[0].Req.URL.Path, c.ShouldEqual, "/v1/scrubber")
+						c.So(doCalls[0].Req.URL.Path, c.ShouldEqual, "/scrubber")
 						c.So(doCalls[0].Req.URL.Query().Get("q"), c.ShouldEqual, "sic code")
 						c.So(doCalls[0].Req.Header["Authorization"], c.ShouldBeEmpty)
 					})
