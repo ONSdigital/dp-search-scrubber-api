@@ -7,7 +7,6 @@ import (
 	"errors"
 	"io"
 	"net/http"
-	"net/url"
 	"testing"
 	"time"
 
@@ -131,9 +130,9 @@ func TestGetScrubber(t *testing.T) {
 		scrubberAPIClient := newScrubberAPIClient(httpClient)
 
 		c.Convey("When GetScrubber is called", func() {
-			query := url.Values{}
-			query.Add("q", "sic code")
-			resp, err := scrubberAPIClient.GetScrubber(ctx, Options{Query: query})
+			opt := OptInit()
+			opt.Q("sic code")
+			resp, err := scrubberAPIClient.GetScrubber(ctx, opt)
 
 			c.Convey("Then the expected response body is returned", func() {
 				c.So(*resp, c.ShouldResemble, scrubberResults)

@@ -34,10 +34,10 @@ Use the GetScrubber method to send a request to find scrubber results based on q
 
 ```go
     // Set query parameters - no limit to which keys and values you set - please refer to swagger spec for list of available parameters
-    query := url.Values{}
-    query.Add("q", "E00000013,01220")
+    opt := sdk.OptInit()
+    opt.Q("E00000013,01220")
 
-    resp, err := scrubberAPIClient.GetScrubber(ctx, sdk.Options{sdk.Query: query})
+    resp, err := scrubberAPIClient.GetScrubber(ctx, opt)
     if err != nil {
         // handle error
     }
