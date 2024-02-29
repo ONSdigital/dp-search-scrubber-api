@@ -26,7 +26,7 @@ var _ sdk.Clienter = &ClienterMock{}
 //			CheckerFunc: func(ctx context.Context, check *health.CheckState) error {
 //				panic("mock out the Checker method")
 //			},
-//			GetScrubberFunc: func(ctx context.Context, options sdk.Options) (*models.ScrubberResp, errors.Error) {
+//			GetScrubberFunc: func(ctx context.Context, options *sdk.Options) (*models.ScrubberResp, errors.Error) {
 //				panic("mock out the GetScrubber method")
 //			},
 //			HealthFunc: func() *healthcheck.Client {
@@ -46,7 +46,7 @@ type ClienterMock struct {
 	CheckerFunc func(ctx context.Context, check *health.CheckState) error
 
 	// GetScrubberFunc mocks the GetScrubber method.
-	GetScrubberFunc func(ctx context.Context, options sdk.Options) (*models.ScrubberResp, errors.Error)
+	GetScrubberFunc func(ctx context.Context, options *sdk.Options) (*models.ScrubberResp, errors.Error)
 
 	// HealthFunc mocks the Health method.
 	HealthFunc func() *healthcheck.Client
@@ -68,7 +68,7 @@ type ClienterMock struct {
 			// Ctx is the ctx argument value.
 			Ctx context.Context
 			// Options is the options argument value.
-			Options sdk.Options
+			Options *sdk.Options
 		}
 		// Health holds details about calls to the Health method.
 		Health []struct {
@@ -120,13 +120,13 @@ func (mock *ClienterMock) CheckerCalls() []struct {
 }
 
 // GetScrubber calls GetScrubberFunc.
-func (mock *ClienterMock) GetScrubber(ctx context.Context, options sdk.Options) (*models.ScrubberResp, errors.Error) {
+func (mock *ClienterMock) GetScrubber(ctx context.Context, options *sdk.Options) (*models.ScrubberResp, errors.Error) {
 	if mock.GetScrubberFunc == nil {
 		panic("ClienterMock.GetScrubberFunc: method is nil but Clienter.GetScrubber was just called")
 	}
 	callInfo := struct {
 		Ctx     context.Context
-		Options sdk.Options
+		Options *sdk.Options
 	}{
 		Ctx:     ctx,
 		Options: options,
@@ -143,11 +143,11 @@ func (mock *ClienterMock) GetScrubber(ctx context.Context, options sdk.Options) 
 //	len(mockedClienter.GetScrubberCalls())
 func (mock *ClienterMock) GetScrubberCalls() []struct {
 	Ctx     context.Context
-	Options sdk.Options
+	Options *sdk.Options
 } {
 	var calls []struct {
 		Ctx     context.Context
-		Options sdk.Options
+		Options *sdk.Options
 	}
 	mock.lockGetScrubber.RLock()
 	calls = mock.calls.GetScrubber

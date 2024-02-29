@@ -14,7 +14,7 @@ import (
 // Clienter interface for scrubber API client
 type Clienter interface {
 	Checker(ctx context.Context, check *health.CheckState) error
-	GetScrubber(ctx context.Context, options Options) (*models.ScrubberResp, errors.Error)
+	GetScrubber(ctx context.Context, options *Options) (*models.ScrubberResp, errors.Error)
 	Health() *healthcheck.Client
 	URL() string
 }
