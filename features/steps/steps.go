@@ -17,7 +17,7 @@ func (c *Component) RegisterSteps(ctx *godog.ScenarioContext) {
 }
 
 func (c *Component) theResponseBodyIsTheSameAsTheJSONIn(expectedFile string) error {
-	responseBody := c.apiFeature.HttpResponse.Body
+	responseBody := c.apiFeature.HTTPResponse.Body
 	actualRawContent, _ := io.ReadAll(responseBody)
 
 	var expected models.ScrubberResp
