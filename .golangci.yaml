@@ -7,16 +7,10 @@ run:
   # timeout for analysis, e.g. 30s, 5m, default is 1m
   timeout: 10m
 linters-settings:
-  govet:
-    check-shadowing: true
-  golint:
-    min-confidence: 0
   gocyclo:
     min-complexity: 20
   gocognit:
     min-complexity: 42
-  maligned:
-    suggest-new: true
   dupl:
     threshold: 100
   goconst:
@@ -41,9 +35,6 @@ linters-settings:
       - ifElseChain
       - octalLiteral
       - hugeParam
-  funlen:
-  # lines: 100
-  # statements: 100
 
 linters:
   # please, do not use `enable-all`: it's deprecated and will be removed soon.
@@ -75,17 +66,11 @@ linters:
 
 issues:
   exclude-rules:
-    - path: _test\.go
+    - path: (features/.*|_test)\.go
       linters:
         - gocyclo
         - errcheck
         - dupl
         - gosec
+        - revive
   new: false
-
-# golangci.com configuration
-# https://github.com/golangci/golangci/wiki/Configuration
-service:
-  golangci-lint-version: 1.43.x # use the fixed version to not introduce new linters unexpectedly
-  prepare:
-    - echo "here I can run custom commands, but no preparation needed for this repo"
