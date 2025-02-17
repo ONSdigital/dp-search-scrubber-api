@@ -44,6 +44,7 @@ linters:
     - dogsled
     - errcheck
     - gochecknoinits
+    - gocognit
     - goconst
     - gocritic
     - gocyclo
@@ -55,14 +56,13 @@ linters:
     - govet
     - ineffassign
     - nakedret
+    - prealloc
     - staticcheck
     - stylecheck
     - typecheck
     - unconvert
     - unused
     - whitespace
-    - gocognit
-    - prealloc
 
 issues:
   exclude-rules:
