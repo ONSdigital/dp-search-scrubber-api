@@ -24,7 +24,8 @@ The API takes a single, multiple or partial OA/SIC codes as input and returns a 
 - `make test-component` - Test components
 - `make update` - Go gets all of the dependencies and downloads them
 
-NB. For running the swagger linter locally in your CLI (using 'make lint') you will need to have first installed redocly-cli, as follows:
+NB. For running the swagger linter locally in your CLI (using 'make lint') you will need to have first installed 
+Node at v20 or above. Then you will also need to install redocly-cli, as follows:
 
 ```shell
 npm install @redocly/cli -g

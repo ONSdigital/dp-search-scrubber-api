@@ -2,9 +2,6 @@ module github.com/ONSdigital/dp-search-scrubber-api
 
 go 1.23
 
-// To fix: [CVE-2024-24786] CWE-835: Loop with Unreachable Exit Condition ('Infinite Loop')
-replace google.golang.org/protobuf v1.31.0 => google.golang.org/protobuf v1.33.0
-
 require (
 	github.com/ONSdigital/dp-api-clients-go/v2 v2.261.0
 	github.com/ONSdigital/dp-component-test v0.17.0

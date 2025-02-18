@@ -20,7 +20,7 @@ VERSION ?= $(shell git tag --points-at HEAD | grep ^v | head -n 1)
 
 LDFLAGS = -ldflags "-X main.BuildTime=$(BUILD_TIME) -X main.GitCommit=$(GIT_COMMIT) -X main.Version=$(VERSION)"
 
-.PHONY: all audit build build-bin clean convey debug delimiter-% fmt lint run run-container test test-all test-component update help
+.PHONY: all audit build build-bin clean convey debug delimiter-% fmt lint run run-container test test-all test-component update help validate-specification
 
 all: delimiter-AUDIT audit delimiter-LINTERS lint delimiter-UNIT-TESTS test delimiter-COMPONENT_TESTS test-component delimiter-FINISH ## Runs multiple targets, audit, lint, test and test-component
 
