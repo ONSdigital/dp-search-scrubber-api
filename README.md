@@ -17,12 +17,18 @@ The API takes a single, multiple or partial OA/SIC codes as input and returns a 
 - `make convey` - Runs only convey tests
 - `make debug` - Runs application locally with debug mode on
 - `make fmt` - Formats the code using go fmt and go vet
-- `make lint` - Automated checking of your source code for programmatic and stylistic errors
+- `make lint` - Automated checking of your swagger spec and source code for programmatic and stylistic errors
 - `make run` - Runs container name: hub from image name: nlp_hub
 - `make run-locally` - Runs the app locally
 - `make test` - Runs all tests with -cover -race flags
 - `make test-component` - Test components
 - `make update` - Go gets all of the dependencies and downloads them
+
+NB. For running the swagger linter locally in your CLI (using 'make lint') you will need to have first installed redocly-cli, as follows:
+
+```shell
+npm install @redocly/cli -g
+```
 
 ### Configuration
 
@@ -37,17 +43,16 @@ The API takes a single, multiple or partial OA/SIC codes as input and returns a 
 
 ## Quick setup
 
-### Docker
+### Running the API in Docker
 
 ```shell
 make run
 ```
 
-### Locally
+### Running the API Locally
 
 ```shell
-make update
-go run .
+make debug
 ```
 
 ## Usage
