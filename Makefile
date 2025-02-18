@@ -49,13 +49,12 @@ fmt: ## Formats the code using go fmt and go vet
 	go fmt ./...
 	go vet ./...
 
-lint: ## Automated checking of your source code for programmatic and stylistic errors
-	validate-specification
-	golangci-lint run ./...
-
-.PHONY: validate-specification
 validate-specification: ## Quality checking of your OpenAPI spec
 	redocly lint swagger.yaml
+
+## Automated checking of your source code for programmatic and stylistic errors
+lint: validate-specification
+	golangci-lint run ./...
 
 run: ## Run the app locally
 	go run . 

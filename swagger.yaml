@@ -6,8 +6,11 @@ info:
   version: 1.0.0
   license:
     name: "MIT License"
+    url: https://opensource.org/licenses/MIT
 schemes:
   - http
+# This API has no security
+security: []
 paths:
   /scrubber:
     get:
@@ -17,7 +20,7 @@ paths:
         - application/json
       parameters:
         - in: query
-          name: query_string
+          name: q
           description: "The query string to search data by"
           required: true
           type: "string"
