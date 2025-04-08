@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ONSdigital/dp-net/request"
+	"github.com/ONSdigital/dp-net/v3/request"
 	"github.com/ONSdigital/dp-search-scrubber-api/db"
 	"github.com/ONSdigital/dp-search-scrubber-api/models"
 	"github.com/ONSdigital/log.go/v2/log"
