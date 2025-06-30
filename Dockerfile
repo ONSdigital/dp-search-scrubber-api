@@ -1,5 +1,5 @@
 # Use a base image with the latest version of Go
-FROM golang:1.24.1-bullseye as build
+FROM golang:1.24.4-bullseye as build
 
 # Set the working directory to /app
 WORKDIR /app
