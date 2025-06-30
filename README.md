@@ -84,6 +84,7 @@ This will return results of the form:
 ```shell
 curl 'http://localhost:28700/scrubber?q=dentists%20in%20london'
 ```
+
 This will return results of the form:
 
 ```json
@@ -95,9 +96,11 @@ This will return results of the form:
 ```
 
 If you search for an area output code like: E00000014 and an industry code like: 01140
+
 ```shell
 curl 'http://localhost:28700/scrubber?q=dentists%20in%20E00000014%2001140'
 ```
+
 This will return results of the form:
 
 ```json
@@ -131,7 +134,6 @@ See [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ### License
 
-Copyright © 2023, Office for National Statistics (https://www.ons.gov.uk)
+Copyright © 2023, Office for National Statistics <https://www.ons.gov.uk>
 
 Released under MIT license, see [LICENSE](LICENSE.md) for details.
-
