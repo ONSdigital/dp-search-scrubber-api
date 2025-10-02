@@ -24,13 +24,6 @@ The API takes a single, multiple or partial OA/SIC codes as input and returns a 
 - `make test-component` - Test components
 - `make update` - Go gets all of the dependencies and downloads them
 
-NB. For running the swagger linter locally in your CLI (using 'make lint') you will need to have first installed 
-Node at v20 or above. Then you will also need to install redocly-cli, as follows:
-
-```shell
-npm install @redocly/cli -g
-```
-
 ### Configuration
 
 | Environment variable         | Default                                       | Description
@@ -54,6 +47,26 @@ make run
 
 ```shell
 make debug
+```
+
+### Tools
+
+To run some of our tests you will need additional tooling:
+
+#### Audit
+
+We use `dis-vulncheck` to do auditing, which you will [need to install](https://github.com/ONSdigital/dis-vulncheck).
+
+#### Linting
+
+We use v2 of golangci-lint, which you will [need to install](https://golangci-lint.run/docs/welcome/install).
+
+#### Validating Specification
+
+For running the swagger linter locally in your CLI (using 'make lint') you will need to have first installed Node at v20 or above. Then you will also need to install redocly-cli, as follows:
+
+```shell
+npm install @redocly/cli -g
 ```
 
 ## Usage
