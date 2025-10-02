@@ -25,7 +25,7 @@ LDFLAGS = -ldflags "-X main.BuildTime=$(BUILD_TIME) -X main.GitCommit=$(GIT_COMM
 all: delimiter-AUDIT audit delimiter-LINTERS lint delimiter-UNIT-TESTS test delimiter-COMPONENT_TESTS test-component delimiter-FINISH ## Runs multiple targets, audit, lint, test and test-component
 
 audit: ## Audits and finds vulnerable dependencies
-	go list -json -m all | nancy sleuth
+	dis-vulncheck
 
 build: Dockerfile ## Builds ./Dockerfile image name: scrubber
 	docker build -t scrubber .
