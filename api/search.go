@@ -14,6 +14,8 @@ import (
 	"github.com/ONSdigital/log.go/v2/log"
 )
 
+const unexpErrMsg = "An unexpected error occurred while processing your request"
+
 func FindAllMatchingAreasAndIndustriesHandler(scrubberDB db.ScrubberDB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
@@ -33,7 +35,7 @@ func FindAllMatchingAreasAndIndustriesHandler(scrubberDB db.ScrubberDB) http.Han
 				Errors: []Errors{
 					{
 						ErrorCode: "", // to be added once Nathan finished the error-codes lib
-						Message:   "An unexpected error occurred while processing your request",
+						Message:   unexpErrMsg,
 					},
 				},
 				TraceID: getRequestID(ctx),
@@ -56,7 +58,7 @@ func FindAllMatchingAreasAndIndustriesHandler(scrubberDB db.ScrubberDB) http.Han
 				Errors: []Errors{
 					{
 						ErrorCode: "", // to be added once Nathan finished the error-codes lib
-						Message:   "An unexpected error occurred while processing your request",
+						Message:   unexpErrMsg,
 					},
 				},
 				TraceID: getRequestID(ctx),
@@ -90,7 +92,7 @@ func FindAllMatchingAreasAndIndustriesHandler(scrubberDB db.ScrubberDB) http.Han
 				Errors: []Errors{
 					{
 						ErrorCode: "", // to be added once Nathan finished the error-codes lib
-						Message:   "An unexpected error occurred while processing your request",
+						Message:   unexpErrMsg,
 					},
 				},
 				TraceID: getRequestID(ctx),
